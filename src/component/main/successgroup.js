@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import Dialog from "@mui/material/Dialog";
-import { addDoc, collection } from "firebase/firestore";
-import { auth } from "../../FirebaseConfig";
+import React from "react";
 
 export default function SuccessGroup(props) {
+  console.log(props);
+
   return (
     <>
       <p>グループID</p>
+      <p>{props.groupId}</p>
     </>
   );
 }
