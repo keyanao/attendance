@@ -28,7 +28,7 @@ export default function SideMenu(props) {
   const Logout = async () => {
     await signOut(auth);
     navigate("/");
-    localStorage.removeItem("id");
+    localStorage.removeItem("uid");
   };
 
   const handleClickOpen = () => {

@@ -31,6 +31,7 @@ const Make = () => {
   // const auth = getAuth();
   const [value, setValue] = useState(false);
 
+
   async function CreateUser(name, registerMail) {
     //送る
     try {

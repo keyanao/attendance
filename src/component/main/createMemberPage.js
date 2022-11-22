@@ -17,6 +17,7 @@ const emails = ["username@gmail.com", "user02@gmail.com"];
 
 export default function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
+  console.log(localStorage.getItem("uid"))
 
   const handleClose = () => {
     onClose(selectedValue);
