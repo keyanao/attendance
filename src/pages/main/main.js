@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
-import { onAuthStateChanged } from "firebase/auth";
 import {
   getDoc,
   doc,
@@ -57,6 +56,7 @@ export default function Main() {
   const [uname, setUname] = useState("大久保");
   const [attendTime, setAattendTime] = useState(new Date());
   const [isAvailable, setAvailable] = useState(false);
+  
   // const [setPosition] = useState({ latitude: null, longitude: null });
   // const navigate = useNavigate();
 
@@ -87,8 +87,11 @@ export default function Main() {
 
   //グループメンバーの全データを取得できる
   const datag = async () => {
+    localStorage.setItem("uid", auth.currentUser.uid);
+    const uid = localStorage.getItem("uid");
     let gId;
-    const docRef = doc(db, "userInfo", auth.currentUser.uid);
+    console.log(uid)
+    const docRef = doc(db, "userInfo", uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       gId = docSnap.data().groupId;

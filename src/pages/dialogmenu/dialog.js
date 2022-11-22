@@ -11,6 +11,8 @@ export default function DialogMenu() {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("");
+  localStorage.setItem("uid", auth.currentUser.uid);
+  const uid = localStorage.getItem("uid");
   console.log(auth.currentUser.uid)
   
 
@@ -49,7 +51,7 @@ export default function DialogMenu() {
       </Button>
       <MakeGroup
         // selectedValue={selectedValue}
-        uid={auth.currentUser.uid}
+        uid={uid}
         open={open}
         onClose={handleClose}
       />
@@ -67,7 +69,7 @@ export default function DialogMenu() {
       </Button>
       <JoinGroup
         // selectedValue={selectedValue}
-        uid={auth.currentUser.uid}
+        uid={uid}
         open={open1}
         onClose={handleClose1}
       />
