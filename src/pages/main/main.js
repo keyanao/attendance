@@ -16,8 +16,8 @@ import {
   where,
 } from "firebase/firestore";
 import { db, auth } from "../../FirebaseConfig";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Sidebar from "../../component/main/sidebar";
-// import { ConstructionOutlined } from "@mui/icons-material";
 
 const columns = [
   {
@@ -56,7 +56,9 @@ export default function Main() {
   const [uname, setUname] = useState("大久保");
   const [attendTime, setAattendTime] = useState(new Date());
   const [isAvailable, setAvailable] = useState(false);
-  
+  const[groupId, setGroupId]= useState()
+  const auth = getAuth();
+
   // const [setPosition] = useState({ latitude: null, longitude: null });
   // const navigate = useNavigate();
 
@@ -85,16 +87,30 @@ export default function Main() {
   //   });
   // };
 
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      const uid = user.uid;
+      localStorage.setItem("uid", uid);
+      // console.log("uid", uid);
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+
   //グループメンバーの全データを取得できる
-  const datag = async () => {
-    localStorage.setItem("uid", auth.currentUser.uid);
+  const data = async () => {
+    let gId
     const uid = localStorage.getItem("uid");
-    let gId;
-    console.log(uid)
     const docRef = doc(db, "userInfo", uid);
     const docSnap = await getDoc(docRef);
+    console.log(docSnap.data());
     if (docSnap.exists()) {
       gId = docSnap.data().groupId;
+      setGroupId(gId)
     } else {
       console.log("No such document!");
     }
@@ -102,7 +118,7 @@ export default function Main() {
     const q = query(collection(db, "userInfo"), where("groupId", "==", gId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
+      // console.log(doc.data());
       setUname(doc.data().name);
     });
   };
@@ -143,16 +159,17 @@ export default function Main() {
 
   useEffect(() => {
     // data();
-    datag();
+    data();
     checkCurrentPosition();
   }, []);
+  // console.log(groupId);
 
   return (
     <>
       {uname ? (
         <>
           <div className="bar" style={{ display: "flex" }}>
-            <Sidebar />
+            <Sidebar groupId={groupId} />
             <h2>B5研究室{/* 最終的にはグループ名をdbから取ってくる */}</h2>
           </div>
           <Button

@@ -18,6 +18,7 @@ import SimpleDialog from "./createMemberPage";
 
 
 export default function SideMenu(props) {
+  console.log(props.groupId);
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   // const [open1, setOpen1] = React.useState(false);
@@ -53,7 +54,7 @@ export default function SideMenu(props) {
     <Box sx={{ width: "auto" }} role="presentation">
       <List>
         <div className="groupname">
-          <SuccessGroup />
+          <SuccessGroup groupId={props.groupId}/>
         </div>
         <div className="member">
           <ListItemButton onClick={handleClickOpen1}>
