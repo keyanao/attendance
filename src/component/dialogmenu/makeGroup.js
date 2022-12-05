@@ -24,9 +24,10 @@ import {
   doc,
   arrayUnion,
 } from "firebase/firestore";
-import { auth,db } from "../../FirebaseConfig";
+import { auth, db } from "../../FirebaseConfig";
 import Geocode from "react-geocode";
 import { useNavigate } from "react-router-dom";
+import { addAddres } from "../../api/addAddres";
 
 export default function MakeGroup(props) {
   const { onClose, open, uid } = props;
@@ -93,39 +94,8 @@ export default function MakeGroup(props) {
         lat = Math.round(position[0] * 1000) / 1000;
         lng = Math.floor(position[1] * 1000) / 1000;
       }
-      try {
-        //グループ保存
+      if (addAddres(groupname, lat, lng, uid)) {
         handleClose();
-        success = true;
-        console.log(success);
-        await addDoc(collection(db, "groupInfo"), {
-          //オブジェクトにしてデータベースに送る
-          groupname: groupname,
-          lat: lat,
-          lng: lng,
-        });
-      } catch (error) {
-        alert("住所を入力してください");
-      }
-
-      try {
-        const q = query(
-          collection(db, "groupInfo"),
-          where("groupname", "==", groupname),
-          where("lat", "==", lat),
-          where("lng", "==", lng)
-        );
-
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc1) => {
-          updateDoc(doc(db, "userInfo", uid), {
-            //オブジェクトにしてデータベースに送る
-            groupId: doc1.id,
-          });
-          navigation("/main", { props: doc1.id });
-        });
-      } catch (error) {
-        alert(error);
       }
     } else {
       alert("グループ名を入力してください");
