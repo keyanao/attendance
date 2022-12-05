@@ -4,8 +4,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SideMenu from "./sidemenu";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   const [open, setOpen] = React.useState(false);
+  // console.log(props);
   const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleClickOpen = () => {
@@ -26,7 +27,7 @@ export default function Sidebar() {
             <SettingsIcon />
           </Button>
           <SwipeableDrawer anchor="right" open={open} onClose={handleClose}>
-            <SideMenu />
+            <SideMenu groupId={props.groupId} />
           </SwipeableDrawer>
         </React.Fragment>
       ))}

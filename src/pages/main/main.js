@@ -7,26 +7,23 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
-import { onAuthStateChanged } from "firebase/auth";
-import {
-  getDoc,
-  doc,
-  getDocs,
-  collection,
-  query,
-  where,
-} from "firebase/firestore";
-import { db, auth } from "../../FirebaseConfig";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Sidebar from "../../component/main/sidebar";
-// import { ConstructionOutlined } from "@mui/icons-material";
+import { getGroupInfo } from "../../api/groupname";
+import { weekTime } from "../../api/weekTime";
+import { monthTime } from "../../api/monthTime";
+import { getUserInfo } from "../../api/getUserInfo";
 
 const columns = [
   {
     id: "name",
     label: "名前",
     minWidth: 170,
+    align: "left",
   },
-  { id: "status", label: "状況", minWidth: 10 },
+  { id: "attend", label: "状況", minWidth: 10, align: "center" },
   {
     id: "weekTime",
     label: "週間",
@@ -42,7 +39,7 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "reportNum",
+    id: "report",
     label: "レポート数",
     minWidth: 170,
     align: "right",
@@ -51,58 +48,37 @@ const columns = [
 ];
 
 export default function Main() {
-  const [page] = React.useState(0);
-  const [rowsPerPage] = React.useState(100);
+  const [attend, setAttend] = useState([]);
   const [status, setStatus] = useState();
-  const [uname, setUname] = useState("大久保");
   const [attendTime, setAattendTime] = useState(new Date());
   const [isAvailable, setAvailable] = useState(false);
-  // const [setPosition] = useState({ latitude: null, longitude: null });
-  // const navigate = useNavigate();
+  const [groupId, setGroupId] = useState();
+  const [groupName, setGroupName] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const auth = getAuth();
+  const uid = localStorage.getItem("uid");
 
   // useEffectが実行されているかどうかを判定するために用意しています
   const isFirstRef = useRef(true);
 
-  function createData(name, status, weekTime, monthTime, reportNum) {
+  function createData(status) {
     if (status) {
       status = "出席";
     } else {
       status = "退席";
     }
-    return { name, status, weekTime, monthTime, reportNum };
+    return { status };
   }
 
-  const rows = [createData("大久保", status, 10, 93, 9)];
+  const rows = [createData()];
 
-  //グループや人の情報取得
-  // const data = () => {
-  //   onAuthStateChanged(auth, async (user) => {
-  //     const docRef = doc(db, "userInfo", user.uid);
-  //     const docSnap = await getDoc(docRef);
-  //     if (docSnap.exists()) {
-  //       setUname(docSnap.data().name);
-  //     }
-  //   });
-  // };
-
-  //グループメンバーの全データを取得できる
-  const datag = async () => {
-    let gId;
-    const docRef = doc(db, "userInfo", auth.currentUser.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      gId = docSnap.data().groupId;
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      localStorage.setItem("uid", uid);
     } else {
-      console.log("No such document!");
     }
-
-    const q = query(collection(db, "userInfo"), where("groupId", "==", gId));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      setUname(doc.data().name);
-    });
-  };
+  });
 
   const handleAttendanceClick = () => {
     //出席時間
@@ -139,18 +115,27 @@ export default function Main() {
   }, [isAvailable]);
 
   useEffect(() => {
-    // data();
-    datag();
+    getUserInfo(uid).then((data) => {
+      setAttend(data);
+      setIsLoading(true);
+      console.log("data", data)
+    });
+    weekTime();
+    monthTime();
+    getGroupInfo(uid).then((data) => {
+      setGroupId(data.id);
+      setGroupName(data.groupName);
+    });
     checkCurrentPosition();
-  }, []);
+  }, [uid]);
 
   return (
     <>
-      {uname ? (
+      {isLoading ? (
         <>
           <div className="bar" style={{ display: "flex" }}>
-            <Sidebar />
-            <h2>B5研究室{/* 最終的にはグループ名をdbから取ってくる */}</h2>
+            <Sidebar groupId={groupId} />
+            <h2>{groupName}</h2>
           </div>
           <Button
             disabled={status}
@@ -166,7 +151,6 @@ export default function Main() {
           >
             退席
           </Button>
-          {/* <Button onClick={()=>Logout()}>ログアウト</Button> */}
           <Paper sx={{ width: "100%" }}>
             <TableContainer sx={{ height: "100%" }}>
               <Table aria-label="sticky table">
@@ -189,40 +173,40 @@ export default function Main() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.code}
-                        >
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell
-                                key={column.id}
-                                align={column.align}
-                                sx={{ top: "100px", height: 50 }}
-                              >
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
+                  {attend.map((attend) => {
+                    delete attend.id;
+                    console.log(attend);
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={attend.name}
+                      >
+                        {columns.map((column) => {
+                          const value = attend[column.id];
+                          return (
+                            <TableCell
+                              key={value}
+                              align={column.align}
+                              sx={{ top: "100px", height: 50 }}
+                            >
+                              {value}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>
           </Paper>
         </>
       ) : (
-        ""
+        <Box sx={{ display: "flex" }}>
+          <CircularProgress />
+        </Box>
       )}
     </>
   );

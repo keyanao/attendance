@@ -21,6 +21,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import InputAdornment from "@mui/material/InputAdornment";
 import { teal } from "@mui/material/colors";
+import { createUser } from "../../api/auth/createUser";
 
 const Make = () => {
   const navigation = useNavigate();
@@ -30,49 +31,6 @@ const Make = () => {
   const [user, setUser] = useState("");
   // const auth = getAuth();
   const [value, setValue] = useState(false);
-
-  async function CreateUser(name, registerMail) {
-    //送る
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        registerMail,
-        registerPassword
-      );
-    } catch (error) {
-      alert("正しく入力してください");
-    }
-
-    try {
-      // console.log(auth)
-      await setDoc(doc(db, "userInfo", auth.currentUser.uid), {
-        //オブジェクトにしてデータベースに送る
-        name: name,
-        registerMail: registerMail,
-      });
-      await addDoc(
-        collection(db, "userInfo", auth.currentUser.uid, "monthTime"),
-        {
-          time: 0,
-        }
-      );
-      await addDoc(
-        collection(db, "userInfo", auth.currentUser.uid, "weekTime"),
-        {
-          time: 0,
-        }
-      );
-      await addDoc(
-        collection(db, "userInfo", auth.currentUser.uid, "report"),
-        {
-          report: 0,
-        }
-      );
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -151,7 +109,7 @@ const Make = () => {
                 color="primary"
                 variant="contained"
                 fullWidth
-                onClick={() => CreateUser(name, registerMail)}
+                onClick={() => createUser(name, registerMail, registerPassword)}
               >
                 新規作成
               </Button>

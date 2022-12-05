@@ -14,18 +14,22 @@ import { useNavigate } from "react-router-dom";
 import SuccessGroup from "./successgroup";
 import MakeReport from "./makereport"
 import { auth } from "../../FirebaseConfig";
+import SimpleDialog from "./createMemberPage";
 
 
 export default function SideMenu(props) {
+  console.log(props.groupId);
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
   // const [open1, setOpen1] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("");
+  const [selectedValue1, setSelectedValue1] = React.useState("");
   const navigate = useNavigate();
 
   const Logout = async () => {
     await signOut(auth);
     navigate("/");
-    localStorage.removeItem("id");
+    localStorage.removeItem("uid");
   };
 
   const handleClickOpen = () => {
@@ -37,19 +41,33 @@ export default function SideMenu(props) {
     setSelectedValue(value);
   };
 
+  const handleClickOpen1 = () => {
+    setOpen1(true);
+  };
+
+  const handleClose1 = (value) => {
+    setOpen1(false);
+    setSelectedValue1(value);
+  };
+
   return (
     <Box sx={{ width: "auto" }} role="presentation">
       <List>
         <div className="groupname">
-          <SuccessGroup/>
+          <SuccessGroup groupId={props.groupId}/>
         </div>
         <div className="member">
-          <ListItemButton>
+          <ListItemButton onClick={handleClickOpen1}>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>
             <ListItemText primary={"メンバー"}></ListItemText>
           </ListItemButton>
+          <SimpleDialog
+            selectedValue={selectedValue1}
+            open={open1}
+            onClose={handleClose1}
+          />
         </div>
         <div className="check">
           <ListItemButton>
