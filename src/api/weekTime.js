@@ -1,18 +1,36 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
   getDoc,
-  doc,
+  addDoc,
   getDocs,
+  doc,
   collection,
   query,
-  where,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 // import { db, auth } from "../../FirebaseConfig";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { async } from "@firebase/util";
+import { db } from "../FirebaseConfig";
 
-export const weekTime = async () => {
+export const weekTime = async (uid) => {
   const time = Date.now(); //unixtime
-  const newTime = (time - 259200) / 604800 / 1000;
-  return newTime; //1970年1月4日(月曜日)から今日が何週目かわかる
+  let weekTime;
+  const newTime = Math.floor((time - 259200) / 604800 / 1000);
+  // return newTime; //1970年1月4日(月曜日)から今日が何週目かわかる
+
+  const qWeekTime = query(
+    collection(db, "userInfo", uid, "weekTime"),
+    orderBy("timestamp", "desc"),
+    limit(1)
+  );
+  const querySnapshotMonth = await getDocs(qWeekTime);
+  querySnapshotMonth.forEach((doc) => {
+    weekTime = doc.data().timestamp;
+  });
+  if (weekTime !== newTime) {
+    await addDoc(collection(db, "userInfo", uid, "weekTime"), {
+      time: 0,
+      timestamp: Math.floor((time - 259200) / 604800 / 1000),
+    });
+  }
 };
