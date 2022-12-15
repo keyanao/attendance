@@ -11,10 +11,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Sidebar from "../../component/main/sidebar";
-import { getGroupInfo } from "../../api/groupname";
+import { getGroupInfo } from "../../api/groupInfo";
 import { weekTime } from "../../api/weekTime";
 import { monthTime } from "../../api/monthTime";
 import { getUserInfo } from "../../api/getUserInfo";
+import { updateAttend } from "../../api/updataAttend";
+import { updateAbsebce } from "../../api/updataAttend";
 
 const columns = [
   {
@@ -23,54 +25,50 @@ const columns = [
     minWidth: 170,
     align: "left",
   },
-  { id: "attend", label: "状況", minWidth: 10, align: "center" },
+  {
+    id: "attend",
+    label: "状況",
+    minWidth: 30,
+    align: "center",
+    format: (value) => (value ? "出席" : "退席"),
+  },
   {
     id: "weekTime",
     label: "週間",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "monthTime",
     label: "月間",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "report",
     label: "レポート数",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
   },
 ];
 
 export default function Main() {
-  const [attend, setAttend] = useState([]);
-  const [status, setStatus] = useState();
+  const [judge, setJudge] = useState();
+  const [localJudge, setLocalJudge] = useState(false);
+  const [attends, setAttends] = useState([]);
   const [attendTime, setAattendTime] = useState(new Date());
   const [isAvailable, setAvailable] = useState(false);
   const [groupId, setGroupId] = useState();
   const [groupName, setGroupName] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [groupLat, setGroupLat] = useState();
+  const [groupLng, setGroupLng] = useState();
   const auth = getAuth();
+  const name = [];
   const uid = localStorage.getItem("uid");
 
   // useEffectが実行されているかどうかを判定するために用意しています
   const isFirstRef = useRef(true);
-
-  function createData(status) {
-    if (status) {
-      status = "出席";
-    } else {
-      status = "退席";
-    }
-    return { status };
-  }
-
-  const rows = [createData()];
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -82,30 +80,41 @@ export default function Main() {
 
   const handleAttendanceClick = () => {
     //出席時間
-    setStatus(true);
+    setJudge(true);
+    attends[0].attend = true;
+    updateAttend(uid);
     setAattendTime(new Date());
     checkCurrentPosition();
   };
 
   const handleAbsenceClick = () => {
     //退席時間
+    attends[0].attend = false;
+    setJudge(false);
+    updateAbsebce(uid);
     const absenceTime = new Date();
-    const diff = absenceTime - attendTime;
-    setStatus(false);
-    // console.log(Math.floor(diff / 1000 / 60), "分"); //在籍時間
+    const diff = (absenceTime - attendTime) / 60; //在籍時間
+    const minute = Math.round(diff * 10) / 10;
+    
   };
 
-  const checkCurrentPosition = () => {
+  const checkCurrentPosition = () => {//位置情報確認
     //現在地取得
+    let nowlat = 0;
+    let nowlng = 0;
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      // setPosition({ latitude, longitude });
-      let lat1 = Math.round(latitude * 1000) / 1000;
-      let lng1 = Math.floor(longitude * 1000) / 1000;
-      // console.log("現在地の緯度", lat1); //緯度
-      // console.log("現在地の経度", lng1); //経度
+      nowlat = Math.round(latitude * 1000) / 1000; //緯度
+      nowlng = Math.floor(longitude * 1000) / 1000; //経度
+      if (nowlat === groupLat && nowlng === groupLng) {
+        setLocalJudge(true);
+      } else {
+        setLocalJudge(false);
+      }
     });
   };
+
+  checkCurrentPosition();
 
   useEffect(() => {
     isFirstRef.current = false;
@@ -115,37 +124,42 @@ export default function Main() {
   }, [isAvailable]);
 
   useEffect(() => {
-    getUserInfo(uid).then((data) => {
-      setAttend(data);
-      setIsLoading(true);
-      console.log("data", data)
+    getUserInfo(uid, setIsLoading).then((data) => {
+      setAttends(data);
+      setJudge(data[0].attend);
     });
-    weekTime();
-    monthTime();
+    weekTime(uid);
+    monthTime(uid);
     getGroupInfo(uid).then((data) => {
       setGroupId(data.id);
       setGroupName(data.groupName);
+      setGroupLat(data.lat);
+      setGroupLng(data.lng);
     });
-    checkCurrentPosition();
-  }, [uid]);
+  }, []);
+  // console.log("groupLat", groupLat);
+  // console.log("groupLng", groupLng);
 
   return (
     <>
       {isLoading ? (
         <>
           <div className="bar" style={{ display: "flex" }}>
-            <Sidebar groupId={groupId} />
+            {attends.map((data) => {
+              name.push(data);
+            })}
+            <Sidebar groupId={groupId} name={name} />
             <h2>{groupName}</h2>
           </div>
           <Button
-            disabled={status}
+            disabled={localJudge ? (judge ? true : false) : true}
             variant="contained"
             onClick={handleAttendanceClick}
           >
             出席
           </Button>
           <Button
-            disabled={!status}
+            disabled={localJudge ? (!judge ? true : false) : true}
             variant="contained"
             onClick={handleAbsenceClick}
           >
@@ -173,29 +187,29 @@ export default function Main() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {attend.map((attend) => {
-                    delete attend.id;
-                    console.log(attend);
+                  {attends.map((attend) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={attend.name}
-                      >
-                        {columns.map((column) => {
-                          const value = attend[column.id];
-                          return (
-                            <TableCell
-                              key={value}
-                              align={column.align}
-                              sx={{ top: "100px", height: 50 }}
-                            >
-                              {value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
+                      <>
+                        <TableRow
+                          hover
+                          role="checkbox"
+                          tabIndex={-1}
+                          key={attend.id}
+                        >
+                          {columns.map((column) => {
+                            const value = attend[column.id];
+                            return (
+                              <TableCell
+                                key={value.id}
+                                align={column.align}
+                                sx={{ top: "100px", height: 50 }}
+                              >
+                                {column.format ? column.format(value) : value}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      </>
                     );
                   })}
                 </TableBody>

@@ -7,7 +7,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db, auth } from "./../FirebaseConfig";
+import { db, auth } from "../FirebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { async } from "@firebase/util";
 

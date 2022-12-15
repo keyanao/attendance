@@ -9,7 +9,6 @@ import { Navigate } from "react-router-dom";
 import { TextField } from "@mui/material";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "./FirebaseConfig.js";
-import { RecoilRoot } from "recoil";
 import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
@@ -110,7 +109,6 @@ function Login() {
 
 function App() {
   return (
-    <RecoilRoot>
       <BrowserRouter>
         <Routes>
           <Route index element={<Login />} />
@@ -122,7 +120,6 @@ function App() {
           {/* <Route path="dailyreport" element={<Dailyreport />} /> */}
         </Routes>
       </BrowserRouter>
-    </RecoilRoot>
   );
 }
 

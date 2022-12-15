@@ -14,6 +14,8 @@ import {
 import { auth, db } from "../../FirebaseConfig";
 
 export const createUser = async (name, registerMail, registerPassword) => {
+  const time = Date.now(); //unixtime
+
   //送る
   try {
     await createUserWithEmailAndPassword(auth, registerMail, registerPassword);
@@ -43,7 +45,7 @@ export const createUser = async (name, registerMail, registerPassword) => {
   try {
     await addDoc(collection(db, "userInfo", auth.currentUser.uid, "weekTime"), {
       time: 0,
-      timestamp: new Date(),
+      timestamp: Math.floor((time - 259200) / 604800 / 1000),
     });
   } catch (error) {
     console.log(error);
