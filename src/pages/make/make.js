@@ -1,10 +1,6 @@
 import "../../style/make.css";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { setDoc, addDoc, doc, collection } from "firebase/firestore";
-import { auth, db } from "../../FirebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../FirebaseConfig";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -35,6 +31,7 @@ const Make = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      localStorage.setItem("uid", auth.currentUser.uid);
     });
   }, []);
 

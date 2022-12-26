@@ -9,9 +9,9 @@ import {
   doc,
   arrayUnion,
 } from "firebase/firestore";
-import { db } from "../FirebaseConfig"
+import { db } from "../FirebaseConfig";
 
-export const addAddres = async (groupname, lat, lng, uid) => {
+export const addAddres = async (groupname, lat, lng, uid, navigation) => {
   try {
     await addDoc(collection(db, "groupInfo"), {
       //オブジェクトにしてデータベースに送る
@@ -38,6 +38,7 @@ export const addAddres = async (groupname, lat, lng, uid) => {
         groupId: doc1.id,
       });
     });
+    navigation("/main");
   } catch (error) {
     alert(error);
   }

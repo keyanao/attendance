@@ -1,9 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
 import {
-  getDoc,
   addDoc,
   getDocs,
-  doc,
   collection,
   query,
   orderBy,
@@ -16,6 +13,7 @@ export const weekTime = async (uid) => {
   const time = Date.now(); //unixtime
   let weekTime;
   const newTime = Math.floor((time - 259200) / 604800 / 1000);
+  console.log("newTime", newTime);
   // return newTime; //1970年1月4日(月曜日)から今日が何週目かわかる
 
   const qWeekTime = query(

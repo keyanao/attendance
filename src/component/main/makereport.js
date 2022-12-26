@@ -3,16 +3,19 @@ import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import { addKeepReport } from "../../api/addKeepReport";
 
 export default function MakeReport(props) {
-  const { onClose, selectedValue, open } = props;
+  const { onClose, selectedValue, open, groupId } = props;
   const [conduct, setConduct] = useState("");
   const [plan, setPlan] = useState("");
 
-  const keepReport = (conduct, plan) => {
+  function keepReport(conduct, plan) {
+    addKeepReport(conduct, plan, groupId);
     setConduct("");
     setPlan("");
-  };
+    onClose(selectedValue);
+  }
 
   const handleClose = () => {
     onClose(selectedValue);

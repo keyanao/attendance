@@ -4,16 +4,13 @@ import JoinGroup from "../../component/dialogmenu/joinGroup"
 import MakeGroup from "../../component/dialogmenu/makeGroup";
 import Button from "@mui/material/Button";
 import { useLocation } from "react-router-dom";
-import { auth } from "../../FirebaseConfig";
 
 export default function DialogMenu() {
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("");
-  localStorage.setItem("uid", auth.currentUser.uid);
   const uid = localStorage.getItem("uid");
-  console.log(auth.currentUser.uid)
   
 
   const handleClickOpen = () => {

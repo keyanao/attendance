@@ -14,17 +14,6 @@ import {
 import { teal } from "@mui/material/colors";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import {
-  query,
-  where,
-  getDocs,
-  addDoc,
-  collection,
-  updateDoc,
-  doc,
-  arrayUnion,
-} from "firebase/firestore";
-import { auth, db } from "../../FirebaseConfig";
 import Geocode from "react-geocode";
 import { useNavigate } from "react-router-dom";
 import { addAddres } from "../../api/addAddres";
@@ -37,7 +26,6 @@ export default function MakeGroup(props) {
   const [groupname, setGroupname] = useState();
   let lat = 0;
   let lng = 0;
-  let success = false;
 
   const handleClose = () => {
     setIsUsedNowLocation(true);
@@ -50,12 +38,7 @@ export default function MakeGroup(props) {
     setIsUsedNowLocation(!isUsedNowLocation);
     setLocation();
   };
-
-  const getCurrentPosition = () =>
-    new Promise((resolve, error) => {
-      return navigator.geolocation.getCurrentPosition(resolve, error);
-    });
-
+  
   async function checkCurrentPosition() {
     let positions = new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -94,8 +77,10 @@ export default function MakeGroup(props) {
         lat = Math.round(position[0] * 1000) / 1000;
         lng = Math.floor(position[1] * 1000) / 1000;
       }
-      if (addAddres(groupname, lat, lng, uid)) {
+      console.log(uid);
+      if (addAddres(groupname, lat, lng, uid, navigation)) {
         handleClose();
+        // navigation("/main");
       }
     } else {
       alert("グループ名を入力してください");
