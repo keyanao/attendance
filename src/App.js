@@ -2,7 +2,6 @@ import "./style/App.css";
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Make from "./pages/make/make";
-import Main from "./pages/main/main";
 import DialogMenu from "./pages/dialogmenu/dialog";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
@@ -13,6 +12,8 @@ import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import InputAdornment from "@mui/material/InputAdornment";
+import Main from "./pages/main/main";
+import Report from "./pages/report/report";
 // import Dailyreport from "./dailyreport";
 
 function Login() {
@@ -20,8 +21,6 @@ function Login() {
   const [loginMail, setLoginMail] = useState("");
   const [user, setUser] = useState();
   const [value, setValue] = useState(false);
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,23 +32,25 @@ function Login() {
   };
 
   useEffect(() => {
+    console.log("aiueo");
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      localStorage.setItem("uid", auth.currentUser.uid);
     });
-  });
+  }, []);
 
   return (
     <>
       {user ? (
         <Navigate to={"/main"} />
       ) : (
-        <div className="App">
+          <div className="App" style={{ width: "100%" }}>
           <header className="App-header">
             <div className="context">
               <h1>Lab Stay</h1>
             </div>
             <div className="inputline">
-              <h3 style={{ margin: "0" }}>ログイン</h3>
+              <h2 style={{ margin: "0" }}>ログイン</h2>
               <form onSubmit={handleSubmit}>
                 <div className="mail">
                   <TextField
@@ -109,17 +110,18 @@ function Login() {
 
 function App() {
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route index element={<Login />} />
-          <Route path="make" element={<Make />} />
-          <Route path="main" element={<Main />} />
-          <Route path="dialogMenu" element={<DialogMenu />} />
-          {/* <Route path="Nowgeo" element={<Nowgeo />} /> */}
-          {/* <Route path="geo" element={<Geo />} /> */}
-          {/* <Route path="dailyreport" element={<Dailyreport />} /> */}
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Login />} />
+        <Route path="make" element={<Make />} />
+        <Route path="main" element={<Main />} />
+        <Route path="dialogMenu" element={<DialogMenu />} />
+        <Route path="report" element={<Report />} />
+        {/* <Route path="Nowgeo" element={<Nowgeo />} /> */}
+        {/* <Route path="geo" element={<Geo />} /> */}
+        {/* <Route path="dailyreport" element={<Dailyreport />} /> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 

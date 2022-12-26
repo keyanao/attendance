@@ -29,6 +29,7 @@ export const createUser = async (name, registerMail, registerPassword) => {
       name: name,
       registerMail: registerMail,
       attend: false,
+      report: 0,
     });
   } catch (error) {}
   try {
@@ -50,13 +51,4 @@ export const createUser = async (name, registerMail, registerPassword) => {
   } catch (error) {
     console.log(error);
   }
-  try {
-    await addDoc(collection(db, "userInfo", auth.currentUser.uid, "report"), {
-      report: 0,
-      timestamp: new Date(),
-    });
-  } catch (error) {
-    console.log(error);
-  }
 };
-

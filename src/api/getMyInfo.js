@@ -17,19 +17,8 @@ export const getMyInfo = async (uid, setIsLoading) => {
   const docSnap = await getDoc(docRef);
 
   return new Promise(async (resolve, reject) => {
-    let dataReport;
     let dataMonthTime;
     let dataWeekTime;
-    //レポート数
-    const qReport = query(
-      collection(db, "userInfo", uid, "report"),
-      orderBy("timestamp", "desc"),
-      limit(1)
-    );
-    const querySnapshotReport = await getDocs(qReport);
-    querySnapshotReport.forEach((doc) => {
-      dataReport = doc.data().report;
-    });
 
     //月の出席時間
     const qMonthTime = query(
@@ -57,7 +46,7 @@ export const getMyInfo = async (uid, setIsLoading) => {
       id: uid,
       name: docSnap.data().name,
       attend: docSnap.data().attend,
-      report: dataReport,
+      report: doc.data().report,
       monthTime: dataMonthTime,
       weekTime: dataWeekTime,
     };

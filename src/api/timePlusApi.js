@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../FirebaseConfig";
 
-export const getUserInfo = async (uid, setIsLoading) => {
+export const timePlusApi = async (uid, setIsLoading2) => {
   let gId;
   const data = [];
 
@@ -31,6 +31,7 @@ export const getUserInfo = async (uid, setIsLoading) => {
     querySnapshot.forEach(async function (doc) {
       let dataMonthTime;
       let dataWeekTime;
+      //レポート数
 
       //月の出席時間
       const qMonthTime = query(
@@ -71,7 +72,7 @@ export const getUserInfo = async (uid, setIsLoading) => {
       }
       // if (data.length + 1 === querySnapshot.size) {
       if (data.length === querySnapshot.size) {
-        setIsLoading(true);
+        setIsLoading2(true);
         resolve(data);
       }
     });

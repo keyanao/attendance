@@ -25,10 +25,8 @@ export const monthTime = async (uid) => {
   const querySnapshotMonth = await getDocs(qMonthTime);
   querySnapshotMonth.forEach((doc) => {
     monthTime = doc.data().timestamp.toDate().getMonth() + 1;
-    console.log(doc.data());
   });
   if (month !== monthTime) {
-    console.log("aiuoe")
     await addDoc(
       collection(db, "userInfo",uid, "monthTime"),
       {

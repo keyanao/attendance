@@ -13,11 +13,10 @@ import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
 import { blue } from "@mui/material/colors";
 
-const emails = ["username@gmail.com", "user02@gmail.com"];
+// const emails = ["username@gmail.com", "user02@gmail.com"];
 
 export default function SimpleDialog(props) {
-  const { onClose, selectedValue, open } = props;
-  console.log(localStorage.getItem("uid"))
+  const { onClose, selectedValue, open, attends } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -30,18 +29,18 @@ export default function SimpleDialog(props) {
   return (
     <Dialog onClose={handleClose} open={open}>
       <List sx={{ pt: 0 }}>
-        {emails.map((email) => (
+        {attends.map((attend) => (
           <ListItem
             button
-            onClick={() => handleListItemClick(email)}
-            key={email}
+            onClick={() => handleListItemClick(attend.name)}
+            key={attend.id}
           >
             <ListItemAvatar>
               <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>
                 <PersonIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={email} />
+            <ListItemText primary={attend.name} />
           </ListItem>
         ))}
       </List>
