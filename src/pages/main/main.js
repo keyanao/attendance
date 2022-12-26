@@ -1,213 +1,178 @@
-import React, { useEffect, useState, useRef } from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import Sidebar from "../../component/main/sidebar";
-import { getGroupInfo } from "../../api/groupname";
-import { weekTime } from "../../api/weekTime";
-import { monthTime } from "../../api/monthTime";
+import Drawer from "@mui/material/Drawer";
+import AppBar from "@mui/material/AppBar";
+import CssBaseline from "@mui/material/CssBaseline";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import MainContent from "../../component/main/mainContent";
+import SideMenu from "../../component/main/sideMenu";
+import { getGroupInfo } from "../../api/groupInfo";
 import { getUserInfo } from "../../api/getUserInfo";
+import { updateAttend } from "../../api/updataAttend";
+import { updateAbsebce } from "../../api/updataAttend";
+import Button from "@mui/material/Button";
+import { TimeView } from "../../component/main/timeView";
+import { timePlusApi } from "../../api/timePlusApi";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const columns = [
-  {
-    id: "name",
-    label: "名前",
-    minWidth: 170,
-    align: "left",
-  },
-  { id: "attend", label: "状況", minWidth: 10, align: "center" },
-  {
-    id: "weekTime",
-    label: "週間",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "monthTime",
-    label: "月間",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "report",
-    label: "レポート数",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
-];
+const drawerWidth = 240;
 
 export default function Main() {
-  const [attend, setAttend] = useState([]);
-  const [status, setStatus] = useState();
+  const [judge, setJudge] = useState();
+  const [localJudge, setLocalJudge] = useState();
+  const [attends, setAttends] = useState([]);
   const [attendTime, setAattendTime] = useState(new Date());
-  const [isAvailable, setAvailable] = useState(false);
-  const [groupId, setGroupId] = useState();
-  const [groupName, setGroupName] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const auth = getAuth();
+  const [isLoading2, setIsLoading2] = useState(true);
+  const [groupLat, setGroupLat] = useState();
+  const [groupLng, setGroupLng] = useState();
   const uid = localStorage.getItem("uid");
-
-  // useEffectが実行されているかどうかを判定するために用意しています
-  const isFirstRef = useRef(true);
-
-  function createData(status) {
-    if (status) {
-      status = "出席";
-    } else {
-      status = "退席";
-    }
-    return { status };
-  }
-
-  const rows = [createData()];
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-      localStorage.setItem("uid", uid);
-    } else {
-    }
-  });
+  const [groupName, setGroupName] = useState();
+  const [groupId, setGroupId] = useState();
 
   const handleAttendanceClick = () => {
     //出席時間
-    setStatus(true);
+    console.log("出席");
+    setJudge(true);
+    attends[0].attend = true;
+    updateAttend(uid);
     setAattendTime(new Date());
-    checkCurrentPosition();
   };
 
   const handleAbsenceClick = () => {
     //退席時間
+    console.log("退席");
+    setIsLoading2(false);
+    attends[0].attend = false;
+    setJudge(false);
     const absenceTime = new Date();
-    const diff = absenceTime - attendTime;
-    setStatus(false);
-    // console.log(Math.floor(diff / 1000 / 60), "分"); //在籍時間
+    const diff = (absenceTime - attendTime) / 1000 / 60 /60; //在籍時間
+    console.log(diff);
+    const minute = Math.round(diff * 10) / 10;
+    updateAbsebce(uid, minute).then(() => {
+      timePlusApi(uid, setIsLoading2).then((data) => {
+        setAttends(data);
+        setJudge(data[0].attend);
+      });
+    });
   };
 
   const checkCurrentPosition = () => {
     //現在地取得
+    let nowlat = 0;
+    let nowlng = 0;
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      // setPosition({ latitude, longitude });
-      let lat1 = Math.round(latitude * 1000) / 1000;
-      let lng1 = Math.floor(longitude * 1000) / 1000;
-      // console.log("現在地の緯度", lat1); //緯度
-      // console.log("現在地の経度", lng1); //経度
+      nowlat = Math.round(latitude * 1000) / 1000; //緯度
+      nowlng = Math.floor(longitude * 1000) / 1000; //経度
+      if (nowlat === groupLat && nowlng === groupLng) {
+        setLocalJudge(true);
+      } else  {
+        setLocalJudge(false);
+      }
     });
   };
+  setInterval(checkCurrentPosition,1000);
+
 
   useEffect(() => {
-    isFirstRef.current = false;
-    if ("geolocation" in navigator) {
-      setAvailable(true);
-    }
-  }, [isAvailable]);
-
-  useEffect(() => {
-    getUserInfo(uid).then((data) => {
-      setAttend(data);
-      setIsLoading(true);
-      console.log("data", data)
+    getUserInfo(uid, setIsLoading).then((data) => {
+      console.log(data);
+      setAttends(data);
+      setJudge(data[0].attend);
     });
-    weekTime();
-    monthTime();
     getGroupInfo(uid).then((data) => {
-      setGroupId(data.id);
       setGroupName(data.groupName);
+      setGroupId(data.id);
+      setGroupLat(data.lat);
+      setGroupLng(data.lng);
     });
-    checkCurrentPosition();
   }, [uid]);
 
   return (
-    <>
-      {isLoading ? (
-        <>
-          <div className="bar" style={{ display: "flex" }}>
-            <Sidebar groupId={groupId} />
-            <h2>{groupName}</h2>
-          </div>
-          <Button
-            disabled={status}
-            variant="contained"
-            onClick={handleAttendanceClick}
-          >
-            出席
-          </Button>
-          <Button
-            disabled={!status}
-            variant="contained"
-            onClick={handleAbsenceClick}
-          >
-            退席
-          </Button>
-          <Paper sx={{ width: "100%" }}>
-            <TableContainer sx={{ height: "100%" }}>
-              <Table aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        sx={{
-                          background: "#C0C0C0",
-                          fontWeight: "bolder",
-                          minWidth: column.minWidth,
-                          height: 50,
-                        }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {attend.map((attend) => {
-                    delete attend.id;
-                    console.log(attend);
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={attend.name}
-                      >
-                        {columns.map((column) => {
-                          const value = attend[column.id];
-                          return (
-                            <TableCell
-                              key={value}
-                              align={column.align}
-                              sx={{ top: "100px", height: 50 }}
-                            >
-                              {value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </>
-      ) : (
-        <Box sx={{ display: "flex" }}>
-          <CircularProgress />
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <Toolbar sx={{ justifyContent: "space-between" }}>
+          {isLoading ? (
+            <Typography variant="h6" noWrap component="div">
+              {groupName}
+            </Typography>
+          ) : (
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <CircularProgress />
+            </Box>
+          )}
+          <Typography variant="h6">
+            <TimeView judge={judge} />
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
+      >
+        <Toolbar />
+        <Box sx={{ overflow: "auto" }}>
+          <SideMenu groupId={groupId} attends={attends} isLoading={isLoading} />
         </Box>
-      )}
-    </>
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Toolbar />
+        {isLoading ? (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              disabled={localJudge ? (judge ? true : false) : true}
+              variant="contained"
+              onClick={handleAttendanceClick}
+              sx={{
+                width: "250px",
+                height: "100px",
+                fontSize: "40px",
+                marginBottom: "10px",
+                // marginLeft: "250px",
+                // marginBottom: "10px",
+              }}
+            >
+              出席
+            </Button>
+            <Button
+              disabled={localJudge ? (!judge ? true : false) : true}
+              variant="contained"
+              onClick={handleAbsenceClick}
+              sx={{
+                width: "250px",
+                height: "100px",
+                fontSize: "40px",
+                marginBottom: "10px",
+                marginLeft: "10px",
+                // marginBottom: "10px",
+              }}
+            >
+              退席
+            </Button>
+          </div>
+        ) : (
+          ""
+        )}
+
+        <MainContent
+          isLoading={isLoading}
+          attends={attends}
+          isLoading2={isLoading2}
+        />
+      </Box>
+    </Box>
   );
 }

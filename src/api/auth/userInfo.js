@@ -29,6 +29,7 @@ export const getId = async (uid) => {
     name: doc.data().name,
     registerMail: doc.data().registerMail,
     id: doc.id,
+    report: doc.data().report,
   }));
   return gId;
 };
