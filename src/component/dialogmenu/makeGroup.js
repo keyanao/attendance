@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
 import "../../style/success.css";
 import {
-  Avatar,
   Box,
   Button,
   Grid,
@@ -11,12 +10,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { teal } from "@mui/material/colors";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Geocode from "react-geocode";
 import { useNavigate } from "react-router-dom";
 import { addAddres } from "../../api/addAddres";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 export default function MakeGroup(props) {
   const { onClose, open, uid } = props;
@@ -38,7 +37,7 @@ export default function MakeGroup(props) {
     setIsUsedNowLocation(!isUsedNowLocation);
     setLocation();
   };
-  
+
   async function checkCurrentPosition() {
     let positions = new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -103,7 +102,7 @@ export default function MakeGroup(props) {
             justifyContent="flex-start" //多分、デフォルトflex-startなので省略できる。
             alignItems="center"
           >
-            <Avatar sx={{ bgcolor: teal[400] }}></Avatar>
+            <GroupsIcon />
             <Typography variant={"h5"} sx={{ m: "30px" }}>
               New Group
             </Typography>

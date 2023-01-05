@@ -6,7 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MainContent from "../../component/main/mainContent";
-import SideMenu from "../../component/main/sideMenu";
+import SideMenu from "../../component/main/sidemenu";
 import { getGroupInfo } from "../../api/groupInfo";
 import { getUserInfo } from "../../api/getUserInfo";
 import { updateAttend } from "../../api/updataAttend";
@@ -47,7 +47,7 @@ export default function Main() {
     attends[0].attend = false;
     setJudge(false);
     const absenceTime = new Date();
-    const diff = (absenceTime - attendTime) / 1000 / 60 /60; //在籍時間
+    const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
     console.log(diff);
     const minute = Math.round(diff * 10) / 10;
     updateAbsebce(uid, minute).then(() => {
@@ -68,13 +68,12 @@ export default function Main() {
       nowlng = Math.floor(longitude * 1000) / 1000; //経度
       if (nowlat === groupLat && nowlng === groupLng) {
         setLocalJudge(true);
-      } else  {
+      } else {
         setLocalJudge(false);
       }
     });
   };
-  setInterval(checkCurrentPosition,1000);
-
+  setInterval(checkCurrentPosition, 1000);
 
   useEffect(() => {
     getUserInfo(uid, setIsLoading).then((data) => {

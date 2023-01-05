@@ -1,17 +1,16 @@
 import "../../style/sidemenu.css";
 import * as React from "react";
-import JoinGroup from "../../component/dialogmenu/joinGroup"
+import JoinGroup from "../../component/dialogmenu/joinGroup";
 import MakeGroup from "../../component/dialogmenu/makeGroup";
-import Button from "@mui/material/Button";
-import { useLocation } from "react-router-dom";
+import GroupsIcon from "@mui/icons-material/Groups";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import "../../style/dialog.css";
 
 export default function DialogMenu() {
-  const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("");
   const uid = localStorage.getItem("uid");
-  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,43 +32,40 @@ export default function DialogMenu() {
 
   return (
     <div className="dialog-menu">
-      <Button
-        variant="contained"
-        onClick={handleClickOpen}
-        sx={{
-          width: "30%",
-          height: "200px",
-          fontSize: "40px",
-          color: "white",
-          marginRight: "100px",
-        }}
-      >
-        グループを作る
-      </Button>
-      <MakeGroup
-        // selectedValue={selectedValue}
-        uid={uid}
-        open={open}
-        onClose={handleClose}
-      />
-      <Button
-        variant="contained"
-        onClick={handleClickOpen1}
-        sx={{
-          width: "30%",
-          height: "200px",
-          fontSize: "40px",
-          color: "white",
-        }}
-      >
-        グループに入る
-      </Button>
-      <JoinGroup
-        // selectedValue={selectedValue}
-        uid={uid}
-        open={open1}
-        onClose={handleClose1}
-      />
+      <MakeGroup uid={uid} open={open} onClose={handleClose} />
+      <JoinGroup uid={uid} open={open1} onClose={handleClose1} />
+      <h1>Lab stay</h1>
+      <div class="card">
+        <div
+          class="groupMakeCards"
+          onClick={() => {
+            handleClickOpen();
+          }}
+          role="button"
+          tabIndex="0"
+        >
+          <div class="groupMakeCards__thumb">
+            <GroupsIcon />
+          </div>
+          <h3 class="groupMakeCards__heading">グループ作成</h3>
+          <p class="groupMakeCards__text"> </p>
+        </div>
+
+        <div
+          class="groupJoinCards"
+          onClick={() => {
+            handleClickOpen1();
+          }}
+          role="button"
+          tabIndex="0"
+        >
+          <div class="groupJoinCards__thumb">
+            <GroupAddIcon />
+          </div>
+          <h3 class="groupJoinCards__heading">グループ参加</h3>
+          <p class="groupJoinCards__text"> </p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -52,11 +52,11 @@ h1{
 }
 
 .linkline{
-    color: inherit;
+    color: blue;
     text-decoration: none;
 }
 
 .linkline:hover {
-  color: #2a954a;
+  color: red;
   font-weight: bold;
 }
