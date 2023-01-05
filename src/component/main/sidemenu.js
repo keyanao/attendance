@@ -11,11 +11,11 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import AddIcon from "@mui/icons-material/Add";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import SuccessGroup from "./successGroup";
-import MakeReport from "./makeReport";
+import SuccessGroup from "./successgroup";
+import MakeReport from "./makereport";
 import { auth } from "../../FirebaseConfig";
 import CircularProgress from "@mui/material/CircularProgress";
-import SimpleDialog from "./createMemberPage";
+import CreateMemberPage from "./createMemberPage";
 
 export default function SideMenu(props) {
   // console.log(props.groupId);
@@ -71,7 +71,7 @@ export default function SideMenu(props) {
           </ListItemIcon>
           <ListItemText primary={"メンバー"}></ListItemText>
         </ListItemButton>
-        <SimpleDialog
+        <CreateMemberPage
           selectedValue={selectedValue1}
           open={open1}
           onClose={handleCloceCheckmenber}

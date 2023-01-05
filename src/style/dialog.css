@@ -1,0 +1,39 @@
+.groupMakeCards {
+  color: white;
+  cursor: pointer;
+  width: 30%;
+  height: 200px;
+  font-size: 40px;
+  /* color: white; */
+  margin: auto;
+  border: 2px solid white;
+}
+
+.groupMakeCards:hover {
+  color: blue;
+  border: solid blue;
+}
+
+.groupJoinCards {
+  color: white;
+  cursor: pointer;
+  width: 30%;
+  height: 200px;
+  font-size: 40px;
+  margin: auto;
+  border: 2px solid white;
+  /* color: white; */
+}
+
+.groupJoinCards:hover {
+  color: blue;
+  border: solid blue;
+}
+
+
+.card {
+  display: flex;
+}
+body {
+  /* background-color: #444447; */
+}

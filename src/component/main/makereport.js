@@ -11,10 +11,15 @@ export default function MakeReport(props) {
   const [plan, setPlan] = useState("");
 
   function keepReport(conduct, plan) {
-    addKeepReport(conduct, plan, groupId);
-    setConduct("");
-    setPlan("");
-    onClose(selectedValue);
+    console.log(conduct);
+    if (conduct === "" && plan === "") {
+      alert("どちらかを入力してください");
+    } else {
+      addKeepReport(conduct, plan, groupId);
+      setConduct("");
+      setPlan("");
+      onClose(selectedValue);
+    }
   }
 
   const handleClose = () => {
