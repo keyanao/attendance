@@ -12,7 +12,6 @@ import {
 import { db } from "../FirebaseConfig";
 
 export const updateAttend = async (uid) => {
-
   const washingtonRef = doc(db, "userInfo", uid);
 
   await updateDoc(washingtonRef, {
@@ -34,8 +33,7 @@ export const updateAbsebce = async (uid, minute) => {
   );
   const querySnapshotMonthTime = await getDocs(qMonthTime);
   querySnapshotMonthTime.forEach((doc1) => {
-    const time1 = doc1.data().time + minute; //意味変数
-    console.log("month", time1);
+    const time1 = Math.round((doc1.data().time + minute) * 10) / 10; //意味変数
     updateDoc(doc(db, "userInfo", uid, "monthTime", doc1.id), {
       time: time1,
     });
@@ -48,8 +46,7 @@ export const updateAbsebce = async (uid, minute) => {
   );
   const querySnapshotWeekTime = await getDocs(qWeekTime);
   querySnapshotWeekTime.forEach((doc2) => {
-    const time = doc2.data().time + minute;
-    console.log("week", time);
+    const time = Math.round((doc2.data().time + minute) * 10) / 10;
     updateDoc(doc(db, "userInfo", uid, "weekTime", doc2.id), {
       time: time,
     });

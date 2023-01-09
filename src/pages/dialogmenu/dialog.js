@@ -34,7 +34,7 @@ export default function DialogMenu() {
     <div className="dialog-menu">
       <MakeGroup uid={uid} open={open} onClose={handleClose} />
       <JoinGroup uid={uid} open={open1} onClose={handleClose1} />
-      <h1>Lab stay</h1>
+      <p class="LabStay">Lab stay</p>
       <div class="card">
         <div
           class="groupMakeCards"
@@ -48,7 +48,7 @@ export default function DialogMenu() {
             <GroupsIcon />
           </div>
           <h3 class="groupMakeCards__heading">グループ作成</h3>
-          <p class="groupMakeCards__text"> </p>
+          <p class="groupMakeCards__text">位置情報,グループ名を決めて<br></br>新しいグループを作成します</p>
         </div>
 
         <div
@@ -63,7 +63,8 @@ export default function DialogMenu() {
             <GroupAddIcon />
           </div>
           <h3 class="groupJoinCards__heading">グループ参加</h3>
-          <p class="groupJoinCards__text"> </p>
+          <p class="groupJoinCards__text">既存のグループに参加します<br>
+          </br>参加にはグループIDが必要です</p>
         </div>
       </div>
     </div>

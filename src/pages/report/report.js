@@ -10,6 +10,9 @@ import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
 
 export default function Report(props) {
   const location = useLocation();
@@ -19,9 +22,15 @@ export default function Report(props) {
   const navigate = useNavigate();
 
   const BackButton = () => {
-    console.log("ajef;haiou");
     navigate("/main");
   };
+
+  const reportDelete = () => {
+    if (window.confirm("入力内容を消去しますか")) {
+      
+}
+  };
+
   useEffect(() => {
     getReportInfo(uid, groupId).then((data) => {
       setReport(data);
@@ -38,12 +47,6 @@ export default function Report(props) {
       </div>
       {report &&
         report.map((conducts) => {
-          // let year = conducts.date.toDate().getFullYear();
-          // let month = conducts.date.toDate().getMonth() + 1;
-          // let day = conducts.date.toDate().getDate();
-          // let dayofweek = conducts.date.toDate().getDay();
-          // let hour = conducts.date.toDate().getHours();
-          // let minute = conducts.date.toDate().getMinutes();
           let fnsH = format(conducts.date.toDate(), "yyyy年M月d日(E) HH:mm", {
             locale: ja,
           });
@@ -55,6 +58,19 @@ export default function Report(props) {
                 id="panel1a-header"
               >
                 <Typography>{fnsH}</Typography>
+                <div style={{ marginLeft: "auto" }}>
+                  <EditIcon />
+                  <DeleteIcon
+                    onClick={() => {
+                      reportDelete();
+                    }}
+                    sx={{
+                      "&:hover": {
+                        color: "steelblue",
+                      },
+                    }}
+                  />
+                </div>
               </AccordionSummary>
               <AccordionDetails>
                 <h3>今日やったこと</h3>
