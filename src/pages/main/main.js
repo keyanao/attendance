@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import AppBar from "@mui/material/AppBar";
@@ -29,6 +29,8 @@ export default function Main() {
   const [groupName, setGroupName] = useState();
   const [groupId, setGroupId] = useState();
   const uid = localStorage.getItem("uid");
+  const refX = useRef(groupLat);
+  const refy = useRef(groupLng);
 
   const handleAttendanceClick = () => {
     //出席時間
@@ -59,21 +61,17 @@ export default function Main() {
     });
   };
 
-  const checkCurrentPosition = async () => {
-    // console.log("checkCurrentPosition");
+  const checkCurrentPosition = async (lat, lng) => {
     //現在地取得
     let nowlat = 0;
     let nowlng = 0;
     let positions = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     });
-    console.log(positions);
     const { latitude, longitude } = positions?.coords;
     nowlat = Math.round(latitude * 1000) / 1000; //緯度
     nowlng = Math.floor(longitude * 1000) / 1000; //経度
-    // console.log("経度", nowlat);
-    // console.log("緯度", nowlng);
-    if (nowlat === groupLat && nowlng === groupLng) {
+    if (nowlat === lat.current && nowlng === lng.current) {
       setLocalJudge(true);
     } else {
       setLocalJudge(false);
@@ -85,14 +83,22 @@ export default function Main() {
       setAttends(data);
       setIsAttended(data[0].attend);
     });
+
     getGroupInfo(uid).then((data) => {
       setGroupName(data.groupName);
       setGroupId(data.id);
       setGroupLat(data.lat);
       setGroupLng(data.lng);
     });
-    setInterval(checkCurrentPosition, 5000);
+    setInterval(() => {
+      checkCurrentPosition(refX, refy);
+    }, 1000);
   }, []);
+
+  useEffect(() => {
+    refX.current = groupLat;
+    refy.current = groupLng;
+  }, [groupLat, groupLng]);
 
   return (
     <Box sx={{ display: "flex" }}>
