@@ -11,18 +11,18 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import AddIcon from "@mui/icons-material/Add";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import SuccessGroup from "./successGroup";
-import MakeReport from "./makeReport";
+import SuccessGroup from "./successgroup";
+import MakeReport from "./makereport";
 import { auth } from "../../FirebaseConfig";
 import CircularProgress from "@mui/material/CircularProgress";
-import SimpleDialog from "./createMemberPage";
+import CreateMemberPage from "./createMemberPage";
 
 export default function SideMenu(props) {
   // console.log(props.groupId);
-  const [open, setOpen] = React.useState(false);
-  const [open1, setOpen1] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("");
-  const [selectedValue1, setSelectedValue1] = React.useState("");
+  const [makeReportOpen, setMakeReportOpen] = React.useState(false);
+  const [checkMemberOpen, setCheckMemberOpen] = React.useState(false);
+  const [selectedReportValue, setSelectedReportValue] = React.useState("");
+  const [selectedMemberValue, setSelectedMemberValue] = React.useState("");
   const navigate = useNavigate();
 
   const Logout = async () => {
@@ -32,21 +32,21 @@ export default function SideMenu(props) {
   };
 
   const handleMakeReport = () => {
-    setOpen(true);
+    setMakeReportOpen(true);
   };
 
   const handleCloseMakeReport = (value) => {
-    setOpen(false);
-    setSelectedValue(value);
+    setMakeReportOpen(false);
+    setSelectedReportValue(value);
   };
 
   const handleCheckmenber = () => {
-    setOpen1(true);
+    setCheckMemberOpen(true);
   };
 
   const handleCloceCheckmenber = (value) => {
-    setOpen1(false);
-    setSelectedValue1(value);
+    setCheckMemberOpen(false);
+    setSelectedMemberValue(value);
   };
 
   const handleCheckReport = () => {
@@ -71,9 +71,9 @@ export default function SideMenu(props) {
           </ListItemIcon>
           <ListItemText primary={"メンバー"}></ListItemText>
         </ListItemButton>
-        <SimpleDialog
-          selectedValue={selectedValue1}
-          open={open1}
+        <CreateMemberPage
+          selectedMemberValue={selectedMemberValue}
+          setCheckMemberOpen={checkMemberOpen}
           onClose={handleCloceCheckmenber}
           attends={props.attends}
         />
@@ -94,8 +94,8 @@ export default function SideMenu(props) {
           <ListItemText primary={"レポート作成"}></ListItemText>
         </ListItemButton>
         <MakeReport
-          selectedValue={selectedValue}
-          open={open}
+          selectedReportValue={selectedReportValue}
+          makeReportOpen={makeReportOpen}
           onClose={handleCloseMakeReport}
           groupId={props.groupId}
         />

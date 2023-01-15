@@ -1,0 +1,58 @@
+.groupMakeCards {
+  cursor: pointer;
+  width: 30%;
+  height: 200px;
+  font-size: 40px;
+  /* color: white; */
+  margin: auto;
+  /* border: 5px solid red; */
+  color: black;
+  background-color: beige;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
+  opacity: 0.8;
+  border-radius: 10px; /* ボックスの四つ角を丸くする */
+}
+
+.groupMakeCards:hover {
+  color: black;
+  opacity: 1;
+  /* border: solid blue; */
+}
+
+.groupJoinCards {
+  cursor: pointer;
+  width: 30%;
+  height: 200px;
+  font-size: 40px;
+  /* color: white; */
+  margin: auto;
+  /* border: 5px solid red; */
+  color: black;
+  background-color: beige;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.5);
+  opacity: 0.8;
+  border-radius: 10px; /* ボックスの四つ角を丸くする */
+}
+
+.groupJoinCards:hover {
+  color: black;
+  opacity: 1;
+}
+
+.card {
+  display: flex;
+}
+/* body {
+  background-color: #444447;
+} */
+
+.groupJoinCards__text {
+  font-size: 20px;
+}
+.groupMakeCards__text {
+  font-size: 20px;
+}
+.LabStay {
+  font-size: 120px;
+  margin-bottom: 50px;
+}

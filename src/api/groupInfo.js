@@ -1,15 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  getDoc,
-  doc,
-  getDocs,
-  collection,
-  query,
-  where,
-} from "firebase/firestore";
-import { db, auth } from "../FirebaseConfig";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { async } from "@firebase/util";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../FirebaseConfig";
 
 export const getGroupInfo = async (uid) => {
   let id;

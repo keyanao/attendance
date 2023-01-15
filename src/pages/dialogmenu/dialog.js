@@ -1,75 +1,86 @@
 import "../../style/sidemenu.css";
 import * as React from "react";
-import JoinGroup from "../../component/dialogmenu/joinGroup"
+import JoinGroup from "../../component/dialogmenu/joinGroup";
 import MakeGroup from "../../component/dialogmenu/makeGroup";
-import Button from "@mui/material/Button";
-import { useLocation } from "react-router-dom";
+import GroupsIcon from "@mui/icons-material/Groups";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import "../../style/dialog.css";
 
 export default function DialogMenu() {
-  const location = useLocation();
-  const [open, setOpen] = React.useState(false);
-  const [open1, setOpen1] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("");
+  const [makeGroupOpen, setMakeGroupOpen] = React.useState(false);
+  const [joinGroupOpen, setJoinGroupOpen] = React.useState(false);
+  const [selecteMakedValue, setSelectedMakeValue] = React.useState("");
+  const [selectedJoinValue, setSelectedJoinValue] = React.useState("");
   const uid = localStorage.getItem("uid");
-  
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickMakeGroupOpen = () => {
+    setMakeGroupOpen(true);
   };
 
-  const handleClickOpen1 = () => {
-    setOpen1(true);
+  const handleClickJoinGroupOpen = () => {
+    setJoinGroupOpen(true);
   };
 
-  const handleClose = (value) => {
-    setOpen(false);
-    setSelectedValue(value);
+  const handleClickMakeGroupClose = (value) => {
+    setMakeGroupOpen(false);
+    setSelectedMakeValue(value);
   };
 
-  const handleClose1 = (value) => {
-    setOpen1(false);
-    setSelectedValue(value);
+  const handleClickJoinGroupClose = (value) => {
+    setJoinGroupOpen(false);
+    setSelectedJoinValue(value);
   };
 
   return (
     <div className="dialog-menu">
-      <Button
-        variant="contained"
-        onClick={handleClickOpen}
-        sx={{
-          width: "30%",
-          height: "200px",
-          fontSize: "40px",
-          color: "white",
-          marginRight: "100px",
-        }}
-      >
-        グループを作る
-      </Button>
       <MakeGroup
-        // selectedValue={selectedValue}
         uid={uid}
-        open={open}
-        onClose={handleClose}
+        open={makeGroupOpen}
+        onClose={handleClickMakeGroupClose}
+        selecteMakedValue={selecteMakedValue}
       />
-      <Button
-        variant="contained"
-        onClick={handleClickOpen1}
-        sx={{
-          width: "30%",
-          height: "200px",
-          fontSize: "40px",
-          color: "white",
-        }}
-      >
-        グループに入る
-      </Button>
       <JoinGroup
-        // selectedValue={selectedValue}
         uid={uid}
-        open={open1}
-        onClose={handleClose1}
+        open={joinGroupOpen}
+        onClose={handleClickJoinGroupClose}
+        selectedJoinValue={selectedJoinValue}
       />
+      <p class="LabStay">Lab stay</p>
+      <div class="card">
+        <div
+          class="groupMakeCards"
+          onClick={() => {
+            handleClickMakeGroupOpen();
+          }}
+          role="button"
+          tabIndex="0"
+        >
+          <div class="groupMakeCards__thumb">
+            <GroupsIcon />
+          </div>
+          <h3 class="groupMakeCards__heading">グループ作成</h3>
+          <p class="groupMakeCards__text">
+            位置情報,グループ名を決めて<br></br>新しいグループを作成します
+          </p>
+        </div>
+
+        <div
+          class="groupJoinCards"
+          onClick={() => {
+            handleClickJoinGroupOpen();
+          }}
+          role="button"
+          tabIndex="0"
+        >
+          <div class="groupJoinCards__thumb">
+            <GroupAddIcon />
+          </div>
+          <h3 class="groupJoinCards__heading">グループ参加</h3>
+          <p class="groupJoinCards__text">
+            既存のグループに参加します<br></br>参加にはグループIDが必要です
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
