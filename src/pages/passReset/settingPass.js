@@ -1,8 +1,5 @@
 import "../../style/make.css";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../FirebaseConfig";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import {
   Avatar,
   Box,
@@ -13,11 +10,14 @@ import {
   Typography,
 } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import { usePassReset } from "../../api/auth/usePassReset";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function SettingPass() {
-  const [resetMail, setResetMail] = useState("");
-  console.log(resetMail);
+  const [newPassword, setNewPassword] = useState("");
+  const [value, setValue] = useState(false);
 
   return (
     <>
@@ -46,15 +46,29 @@ export default function SettingPass() {
               fontSize: "small",
             }}
           >
-            パスワードを変更したいメールアドレスを<br></br>入力してください
+            新しいパスワードを入力してください
           </p>
         </Grid>
         <TextField
-          label="mail"
+          label={value ? "" : "password"}
+          type={value ? "text" : "password"}
           fullWidth
           required
-          onChange={(e) => setResetMail(e.target.value)}
+          onChange={(e) => setNewPassword(e.target.value)}
           sx={{ marginTop: 1, background: "rgb(245,245,245)" }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setValue(!value)}
+                  edge="end"
+                >
+                  {value ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Box mt={3}>
           <Button type="submit" color="primary" variant="contained" fullWidth>
