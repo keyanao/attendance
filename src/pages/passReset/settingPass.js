@@ -16,7 +16,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function SettingPass() {
-  const [newPassword, setNewPassword] = useState("");
+  const [setNewPassword] = useState("");
   const [value, setValue] = useState(false);
 
   return (

@@ -18,9 +18,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 export default function SideMenu(props) {
   // console.log(props.groupId);
   const [makeReportOpen, setMakeReportOpen] = React.useState(false);
-  const [checkMemberOpen, setCheckMemberOpen] = React.useState(false);
   const [selectedReportValue, setSelectedReportValue] = React.useState("");
-  const [selectedMemberValue, setSelectedMemberValue] = React.useState("");
   const navigate = useNavigate();
 
   const Logout = async () => {
@@ -38,17 +36,8 @@ export default function SideMenu(props) {
     setSelectedReportValue(value);
   };
 
-  const handleCheckmenber = () => {
-    setCheckMemberOpen(true);
-  };
-
-  const handleCloceCheckmenber = (value) => {
-    setCheckMemberOpen(false);
-    setSelectedMemberValue(value);
-  };
-
   const handleCheckReport = () => {
-    navigate("/Report",{state:props.groupId});
+    navigate("/Report", { state: props.groupId });
   };
 
   return (
@@ -62,20 +51,6 @@ export default function SideMenu(props) {
           <CircularProgress />
         </Box>
       )}
-      {/* <div className="member">
-        <ListItemButton onClick={handleCheckmenber}>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText primary={"メンバー"}></ListItemText>
-        </ListItemButton>
-        <CreateMemberPage
-          selectedMemberValue={selectedMemberValue}
-          setCheckMemberOpen={checkMemberOpen}
-          onClose={handleCloceCheckmenber}
-          attends={props.attends}
-        />
-      </div> */}
       <div className="check">
         <ListItemButton onClick={handleCheckReport}>
           <ListItemIcon>

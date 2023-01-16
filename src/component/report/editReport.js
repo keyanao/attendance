@@ -45,6 +45,7 @@ export default function EditReport(props) {
       setConduct(data.conduct);
       setPlan(data.plan);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edidCheck]);
 
   return (

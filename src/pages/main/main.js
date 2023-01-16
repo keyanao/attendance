@@ -93,6 +93,7 @@ export default function Main() {
     setInterval(() => {
       checkCurrentPosition(refX, refy);
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

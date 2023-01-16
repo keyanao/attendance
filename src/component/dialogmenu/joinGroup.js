@@ -6,7 +6,6 @@ import { Button } from "@mui/material";
 import {
   doc,
   updateDoc,
-  arrayUnion,
   collection,
   getDocs,
 } from "firebase/firestore";
