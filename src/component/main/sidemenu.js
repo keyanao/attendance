@@ -64,7 +64,7 @@ export default function SideMenu(props) {
           <CircularProgress />
         </Box>
       )}
-      <div className="member">
+      {/* <div className="member">
         <ListItemButton onClick={handleCheckmenber}>
           <ListItemIcon>
             <PersonIcon />
@@ -77,7 +77,7 @@ export default function SideMenu(props) {
           onClose={handleCloceCheckmenber}
           attends={props.attends}
         />
-      </div>
+      </div> */}
       <div className="check">
         <ListItemButton onClick={handleCheckReport}>
           <ListItemIcon>

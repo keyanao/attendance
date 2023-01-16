@@ -13,11 +13,15 @@ import {
   Typography,
 } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import { usePassReset } from "../../api/auth/usePassReset";
+import { sendPassReset } from "../../api/auth/usePassReset";
 
 export default function PassReset() {
   const [resetMail, setResetMail] = useState("");
-  console.log(resetMail);
+  const navigate = useNavigate();
+
+  const send = (mail) => {
+    sendPassReset(mail, navigate);
+  };
 
   return (
     <>
@@ -57,7 +61,13 @@ export default function PassReset() {
           sx={{ marginTop: 1, background: "rgb(245,245,245)" }}
         />
         <Box mt={3}>
-          <Button type="submit" color="primary" variant="contained" fullWidth>
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            onClick={() => send(resetMail)}
+            fullWidth
+          >
             送信
           </Button>
         </Box>
