@@ -1,4 +1,3 @@
-import React, { useEffect, useState, useRef } from "react";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
 
@@ -9,7 +8,6 @@ export const getGroupInfo = async (uid) => {
   let lng;
   const docRef = doc(db, "userInfo", uid);
   const docSnap = await getDoc(docRef);
-  // console.log(docSnap.data());
   if (docSnap.exists()) {
     id = docSnap.data().groupId;
   } else {
@@ -18,7 +16,6 @@ export const getGroupInfo = async (uid) => {
 
   const docRefName = doc(db, "groupInfo", id);
   const docSnapName = await getDoc(docRefName);
-  // console.log(docSnap.data());
   if (docSnap.exists()) {
     groupName = docSnapName.data().groupname;
     lat = docSnapName.data().lat;

@@ -5,9 +5,7 @@ import {
   collection,
   query,
   updateDoc,
-  orderBy,
   where,
-  limit,
   addDoc,
 } from "firebase/firestore";
 import { db } from "../FirebaseConfig";

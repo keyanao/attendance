@@ -16,7 +16,6 @@ import Main from "./pages/main/main";
 import Report from "./pages/report/report";
 import PassReset from "./pages/passReset/passReset"
 import SettingPass from "./pages/passReset/settingPass";
-// import Dailyreport from "./dailyreport";
 
 function Login() {
   const [loginPassword, setLoginPassword] = useState("");
@@ -127,9 +126,6 @@ function App() {
         <Route path="report" element={<Report />} />
         <Route path="passReset" element={<PassReset />} />
         <Route path="settingPass" element={<SettingPass />} />
-        {/* <Route path="Nowgeo" element={<Nowgeo />} /> */}
-        {/* <Route path="geo" element={<Geo />} /> */}
-        {/* <Route path="dailyreport" element={<Dailyreport />} /> */}
       </Routes>
     </BrowserRouter>
   );

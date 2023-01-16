@@ -1,4 +1,3 @@
-import React, { useEffect, useState, useRef } from "react";
 import {
   getDoc,
   doc,
@@ -9,7 +8,7 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
-import { db, auth } from "../FirebaseConfig";
+import { db } from "../FirebaseConfig";
 
 export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
   let gId;
@@ -23,7 +22,6 @@ export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
 
   const docRef = doc(db, "userInfo", uid);
   const docSnap = await getDoc(docRef);
-  // console.log(docSnap.data());
   if (docSnap.exists()) {
     gId = docSnap.data().groupId;
   } else {
@@ -81,7 +79,6 @@ export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
       } else {
         data.unshift(example);
       }
-      // if (data.length + 1 === querySnapshot.size) {
       if (data.length === querySnapshot.size) {
         if (setIsLoading) {
           setIsLoading(true);

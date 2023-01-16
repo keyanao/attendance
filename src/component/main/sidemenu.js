@@ -6,7 +6,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import LogoutIcon from "@mui/icons-material/Logout";
-import PersonIcon from "@mui/icons-material/Person";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import AddIcon from "@mui/icons-material/Add";
 import { signOut } from "firebase/auth";
@@ -15,7 +14,6 @@ import SuccessGroup from "./successgroup";
 import MakeReport from "./makereport";
 import { auth } from "../../FirebaseConfig";
 import CircularProgress from "@mui/material/CircularProgress";
-import CreateMemberPage from "./createMemberPage";
 
 export default function SideMenu(props) {
   // console.log(props.groupId);

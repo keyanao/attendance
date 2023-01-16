@@ -8,7 +8,7 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
-import { db, auth } from "../FirebaseConfig";
+import { db } from "../FirebaseConfig";
 
 export const timePlusApi = async (uid, setIsLoading2) => {
   let gId;
@@ -16,7 +16,6 @@ export const timePlusApi = async (uid, setIsLoading2) => {
 
   const docRef = doc(db, "userInfo", uid);
   const docSnap = await getDoc(docRef);
-  // console.log(docSnap.data());
   if (docSnap.exists()) {
     gId = docSnap.data().groupId;
   } else {
@@ -35,7 +34,6 @@ export const timePlusApi = async (uid, setIsLoading2) => {
       //月の出席時間
       const qMonthTime = query(
         collection(db, "userInfo", doc.id, "monthTime"),
-        // where("groupId", "==", gId),
         orderBy("timestamp", "asc"),
         limit(1)
       );
@@ -47,7 +45,6 @@ export const timePlusApi = async (uid, setIsLoading2) => {
       //週の出席時間
       const qWeekTime = query(
         collection(db, "userInfo", doc.id, "weekTime"),
-        // where("groupId", "==", gId),
         orderBy("timestamp", "asc"),
         limit(1)
       );
@@ -69,7 +66,6 @@ export const timePlusApi = async (uid, setIsLoading2) => {
       } else {
         data.unshift(example);
       }
-      // if (data.length + 1 === querySnapshot.size) {
       if (data.length === querySnapshot.size) {
         setIsLoading2(true);
         resolve(data);

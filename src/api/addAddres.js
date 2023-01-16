@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   query,
   where,
@@ -7,7 +6,6 @@ import {
   collection,
   updateDoc,
   doc,
-  arrayUnion,
 } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
 

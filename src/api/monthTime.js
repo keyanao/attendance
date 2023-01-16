@@ -1,14 +1,11 @@
 import {
-  getDoc,
   addDoc,
   getDocs,
-  doc,
   collection,
   query,
   orderBy,
   limit,
 } from "firebase/firestore";
-// import { db, auth } from "../../FirebaseConfig";
 import { db } from "../FirebaseConfig";
 
 

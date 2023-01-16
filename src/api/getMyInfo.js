@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
 import {
   getDoc,
   doc,
   getDocs,
   collection,
   query,
-  where,
   orderBy,
   limit,
 } from "firebase/firestore";

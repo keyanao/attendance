@@ -4,12 +4,6 @@ import {
   addDoc,
   doc,
   collection,
-  limit,
-  where,
-  query,
-  getDocs,
-  getDoc,
-  orderBy,
 } from "firebase/firestore";
 import { auth, db } from "../../FirebaseConfig";
 
