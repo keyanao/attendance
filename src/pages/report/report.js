@@ -10,18 +10,47 @@ import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { deleteReport } from "../../api/deleteReport";
+import EditReport from "../../component/report/editReport";
 
-export default function Report(props) {
+export default function Report() {
   const location = useLocation();
+  const [edidCheck, setEditCheck] = useState(false);
   const groupId = location.state;
   const uid = localStorage.getItem("uid");
   const [report, setReport] = useState();
   const navigate = useNavigate();
+  const [editReportOpen, setEditReportOpen] = React.useState(false);
+  const [editReportValue, setEditReportValue] = React.useState("");
+  const [reportDate, setReportDate] = useState();
 
   const BackButton = () => {
-    console.log("ajef;haiou");
     navigate("/main");
   };
+
+  const reportDelete = (date) => {
+    if (window.confirm("入力内容を消去しますか")) {
+      deleteReport(uid, groupId, date).then(() => {
+        getReportInfo(uid, groupId).then((data) => {
+          setReport(data);
+        });
+      });
+    }
+  };
+
+  const handleEditReport = (date) => {
+    setEditReportOpen(true);
+    setEditCheck(!edidCheck);
+    setReportDate(date);
+  };
+
+  const handleCloseEditReport = (value) => {
+    setEditReportOpen(false);
+    setEditReportValue(value);
+  };
+
   useEffect(() => {
     getReportInfo(uid, groupId).then((data) => {
       setReport(data);
@@ -30,39 +59,91 @@ export default function Report(props) {
 
   return (
     <div>
-      <div style={{ display: "flex" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <h2>レポート一覧</h2>
-        <Button onClick={() => BackButton()} sx={{ marginLeft: "auto" }}>
+        <Button onClick={() => BackButton()} sx={{marginLeft:"30%"}}>
           戻る
         </Button>
       </div>
       {report &&
         report.map((conducts) => {
-          // let year = conducts.date.toDate().getFullYear();
-          // let month = conducts.date.toDate().getMonth() + 1;
-          // let day = conducts.date.toDate().getDate();
-          // let dayofweek = conducts.date.toDate().getDay();
-          // let hour = conducts.date.toDate().getHours();
-          // let minute = conducts.date.toDate().getMinutes();
           let fnsH = format(conducts.date.toDate(), "yyyy年M月d日(E) HH:mm", {
             locale: ja,
           });
           return (
-            <Accordion key={conducts.date}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  backGround: "ccc",
+                  flexWrap: "wrap",
+                }}
               >
-                <Typography>{fnsH}</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <h3>今日やったこと</h3>
-                <Typography>{conducts.conduct}</Typography>
-                <h3>次回やること</h3>
-                <Typography>{conducts.plan}</Typography>
-              </AccordionDetails>
-            </Accordion>
+                <EditIcon
+                  onClick={() => {
+                    handleEditReport(conducts.date);
+                  }}
+                  sx={{
+                    "&:hover": {
+                      color: "steelblue",
+                    },
+                  }}
+                />
+                <EditReport
+                  editReportValue={editReportValue}
+                  editReportOpen={editReportOpen}
+                  onClose={handleCloseEditReport}
+                  date={reportDate}
+                  groupId={groupId}
+                  edidCheck={edidCheck}
+                  setReport={setReport}
+                />
+                <DeleteIcon
+                  onClick={() => {
+                    reportDelete(conducts.date);
+                  }}
+                  sx={{
+                    "&:hover": {
+                      color: "steelblue",
+                    },
+                  }}
+                />
+                <Accordion
+                  key={conducts.date}
+                  sx={{
+                    width: "700px",
+                    "&:hover": {
+                      bgcolor: "beige",
+                    },
+                  }}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography>{fnsH}</Typography>
+                    <div style={{ marginLeft: "auto" }}></div>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <h3>今日やったこと</h3>
+                    <Typography sx={{ wordBreak: "break-all" }}>
+                      {conducts.conduct}
+                    </Typography>
+                    <h3>次回やること</h3>
+                    <Typography sx={{ wordBreak: "break-all" }}>
+                      {conducts.plan}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+            </>
           );
         })}
     </div>

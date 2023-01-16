@@ -43,6 +43,7 @@ h1{
 }
 
 .inputline{
+  border-radius: 10px; /* ボックスの四つ角を丸くする */
   padding-top: 60px;
   background-color: white;
   padding-bottom: 60px;

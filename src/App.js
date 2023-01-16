@@ -14,6 +14,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import InputAdornment from "@mui/material/InputAdornment";
 import Main from "./pages/main/main";
 import Report from "./pages/report/report";
+import PassReset from "./pages/passReset/passReset"
+import SettingPass from "./pages/passReset/settingPass";
 // import Dailyreport from "./dailyreport";
 
 function Login() {
@@ -32,7 +34,6 @@ function Login() {
   };
 
   useEffect(() => {
-    console.log("aiueo");
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       localStorage.setItem("uid", auth.currentUser.uid);
@@ -44,7 +45,7 @@ function Login() {
       {user ? (
         <Navigate to={"/main"} />
       ) : (
-          <div className="App" style={{ width: "100%" }}>
+        <div className="App" style={{ width: "100%" }}>
           <header className="App-header">
             <div className="context">
               <h1>Lab Stay</h1>
@@ -97,9 +98,16 @@ function Login() {
                   ログイン
                 </Button>
               </form>
-              <Link className="linkline" to="make">
-                会員登録がまだの方はこちらへ
-              </Link>
+              <div>
+                <Link className="linkline" to="make">
+                  会員登録がまだの方はこちらへ
+                </Link>
+              </div>
+              <div style={{ fontSize: "20px" }}>
+                <Link className="linkline" to="passReset">
+                  パスワードを忘れた方
+                </Link>
+              </div>
             </div>
           </header>
         </div>
@@ -117,6 +125,8 @@ function App() {
         <Route path="main" element={<Main />} />
         <Route path="dialogMenu" element={<DialogMenu />} />
         <Route path="report" element={<Report />} />
+        <Route path="passReset" element={<PassReset />} />
+        <Route path="settingPass" element={<SettingPass />} />
         {/* <Route path="Nowgeo" element={<Nowgeo />} /> */}
         {/* <Route path="geo" element={<Geo />} /> */}
         {/* <Route path="dailyreport" element={<Dailyreport />} /> */}

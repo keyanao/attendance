@@ -38,7 +38,7 @@ export default function MakeGroup(props) {
     setLocation();
   };
 
-  async function checkCurrentPosition() {
+  async function currentPosition() {
     let positions = new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     });
@@ -65,7 +65,7 @@ export default function MakeGroup(props) {
     if (groupname) {
       if (isUsedNowLocation === true) {
         //現在地から緯度経度
-        const position = await checkCurrentPosition();
+        const position = await currentPosition();
         const { latitude, longitude } = position?.coords;
         lat = Math.round(latitude * 1000) / 1000;
         lng = Math.floor(longitude * 1000) / 1000;

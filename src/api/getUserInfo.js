@@ -11,9 +11,15 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../FirebaseConfig";
 
-export const getUserInfo = async (uid, setIsLoading) => {
+export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
   let gId;
   const data = [];
+
+  const time = Date.now(); //unixtime
+  const newTime = Math.floor((time - 259200) / 604800 / 1000);
+
+  const d = new Date();
+  const month = d.getMonth() + 1; //何月かを取得
 
   const docRef = doc(db, "userInfo", uid);
   const docSnap = await getDoc(docRef);
@@ -35,25 +41,31 @@ export const getUserInfo = async (uid, setIsLoading) => {
       //月の出席時間
       const qMonthTime = query(
         collection(db, "userInfo", doc.id, "monthTime"),
-        // where("groupId", "==", gId),
         orderBy("timestamp", "asc"),
         limit(1)
       );
       const querySnapshotMonthTime = await getDocs(qMonthTime);
       querySnapshotMonthTime.forEach((doc) => {
-        dataMonthTime = doc.data().time;
+        if (month === doc.data().timestamp.toDate().getMonth() + 1) {
+          dataMonthTime = doc.data().time;
+        } else {
+          dataMonthTime = 0;
+        }
       });
 
       //週の出席時間
       const qWeekTime = query(
         collection(db, "userInfo", doc.id, "weekTime"),
-        // where("groupId", "==", gId),
         orderBy("timestamp", "asc"),
         limit(1)
       );
       const querySnapshotWeekTime = await getDocs(qWeekTime);
       querySnapshotWeekTime.forEach((doc) => {
-        dataWeekTime = doc.data().time;
+        if (doc.data().timestamp === newTime) {
+          dataWeekTime = doc.data().time;
+        } else {
+          dataWeekTime = 0;
+        }
       });
 
       const example = {
@@ -71,7 +83,12 @@ export const getUserInfo = async (uid, setIsLoading) => {
       }
       // if (data.length + 1 === querySnapshot.size) {
       if (data.length === querySnapshot.size) {
-        setIsLoading(true);
+        if (setIsLoading) {
+          setIsLoading(true);
+        }
+        if (setIsLoading2) {
+          setIsLoading2(true);
+        }
         resolve(data);
       }
     });

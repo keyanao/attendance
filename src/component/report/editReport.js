@@ -1,35 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { addKeepReport } from "../../api/addKeepReport";
+import { updateRport } from "../../api/addKeepReport";
+import { getEditReportInfo } from "../../api/getReportInfo";
+import { getReportInfo } from "../../api/getReportInfo";
 
-export default function MakeReport(props) {
-  const { onClose, selectedReportValue, makeReportOpen, groupId } = props;
+export default function EditReport(props) {
+  const {
+    onClose,
+    editReportValue,
+    editReportOpen,
+    date,
+    groupId,
+    edidCheck,
+    setReport,
+  } = props;
   const [conduct, setConduct] = useState("");
   const [plan, setPlan] = useState("");
+  const uid = localStorage.getItem("uid");
 
   function keepReport(conduct, plan) {
-    console.log(conduct);
     if (conduct === "" && plan === "") {
       alert("どちらかを入力してください");
     } else {
-      addKeepReport(conduct, plan, groupId);
+      updateRport(conduct, plan, groupId, date).then(() => {
+        getReportInfo(uid, groupId).then((data) => {
+          setReport(data);
+        });
+      });
       setConduct("");
       setPlan("");
-      onClose(selectedReportValue);
+      onClose(editReportValue);
     }
   }
 
   const handleClose = () => {
-    onClose(selectedReportValue);
+    onClose(editReportValue);
   };
+
+  useEffect(() => {
+    getEditReportInfo(uid, groupId, date).then((data) => {
+      setConduct(data.conduct);
+      setPlan(data.plan);
+    });
+  }, [edidCheck]);
 
   return (
     <Dialog
       onClose={handleClose}
-      open={makeReportOpen}
+      open={editReportOpen}
       sx={{
         "& .MuiDialog-container": {
           "& .MuiPaper-root": {
@@ -67,14 +88,14 @@ export default function MakeReport(props) {
         />
       </div>
       <Button onClick={() => keepReport(conduct, plan)} variant="contained">
-        作成
+        編集
       </Button>
     </Dialog>
   );
 }
 
-MakeReport.propTypes = {
+EditReport.propTypes = {
   onClose: PropTypes.func.isRequired,
-  makeReportOpen: PropTypes.bool.isRequired,
-  selectedReportValue: PropTypes.string.isRequired,
+  editReportOpen: PropTypes.bool.isRequired,
+  editReportValue: PropTypes.string.isRequired,
 };

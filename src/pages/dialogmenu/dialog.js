@@ -7,39 +7,50 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import "../../style/dialog.css";
 
 export default function DialogMenu() {
-  const [open, setOpen] = React.useState(false);
-  const [open1, setOpen1] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("");
+  const [makeGroupOpen, setMakeGroupOpen] = React.useState(false);
+  const [joinGroupOpen, setJoinGroupOpen] = React.useState(false);
+  const [selecteMakedValue, setSelectedMakeValue] = React.useState("");
+  const [selectedJoinValue, setSelectedJoinValue] = React.useState("");
   const uid = localStorage.getItem("uid");
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickMakeGroupOpen = () => {
+    setMakeGroupOpen(true);
   };
 
-  const handleClickOpen1 = () => {
-    setOpen1(true);
+  const handleClickJoinGroupOpen = () => {
+    setJoinGroupOpen(true);
   };
 
-  const handleClose = (value) => {
-    setOpen(false);
-    setSelectedValue(value);
+  const handleClickMakeGroupClose = (value) => {
+    setMakeGroupOpen(false);
+    setSelectedMakeValue(value);
   };
 
-  const handleClose1 = (value) => {
-    setOpen1(false);
-    setSelectedValue(value);
+  const handleClickJoinGroupClose = (value) => {
+    setJoinGroupOpen(false);
+    setSelectedJoinValue(value);
   };
 
   return (
     <div className="dialog-menu">
-      <MakeGroup uid={uid} open={open} onClose={handleClose} />
-      <JoinGroup uid={uid} open={open1} onClose={handleClose1} />
-      <h1>Lab stay</h1>
+      <MakeGroup
+        uid={uid}
+        open={makeGroupOpen}
+        onClose={handleClickMakeGroupClose}
+        selecteMakedValue={selecteMakedValue}
+      />
+      <JoinGroup
+        uid={uid}
+        open={joinGroupOpen}
+        onClose={handleClickJoinGroupClose}
+        selectedJoinValue={selectedJoinValue}
+      />
+      <p class="LabStay">Lab stay</p>
       <div class="card">
         <div
           class="groupMakeCards"
           onClick={() => {
-            handleClickOpen();
+            handleClickMakeGroupOpen();
           }}
           role="button"
           tabIndex="0"
@@ -48,13 +59,15 @@ export default function DialogMenu() {
             <GroupsIcon />
           </div>
           <h3 class="groupMakeCards__heading">グループ作成</h3>
-          <p class="groupMakeCards__text"> </p>
+          <p class="groupMakeCards__text">
+            位置情報,グループ名を決めて<br></br>新しいグループを作成します
+          </p>
         </div>
 
         <div
           class="groupJoinCards"
           onClick={() => {
-            handleClickOpen1();
+            handleClickJoinGroupOpen();
           }}
           role="button"
           tabIndex="0"
@@ -63,7 +76,9 @@ export default function DialogMenu() {
             <GroupAddIcon />
           </div>
           <h3 class="groupJoinCards__heading">グループ参加</h3>
-          <p class="groupJoinCards__text"> </p>
+          <p class="groupJoinCards__text">
+            既存のグループに参加します<br></br>参加にはグループIDが必要です
+          </p>
         </div>
       </div>
     </div>
