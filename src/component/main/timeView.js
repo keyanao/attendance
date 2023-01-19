@@ -7,21 +7,20 @@ export const TimeView = (props) => {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    if (props.judge === true) {
+    if (props.isAttended === true) {
       const localStorageCheck = localStorage.getItem("start");
       if (!localStorageCheck) {
-        console.log("aiueo");
         const start = Date.now();
         localStorage.setItem("start", start);
       }
       setRunning(true);
-    } else if (props.judge === false) {
+    } else if (props.isAttended === false) {
       localStorage.removeItem("start");
       setRunning(false);
       setDisplayTime("00:00:00");
       setcalcTime(0);
     }
-  }, [props.judge]);
+  }, [props.isAttended]);
 
   // ボタンをクリックした時の処理
   useEffect(() => {

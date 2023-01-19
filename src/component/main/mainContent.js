@@ -12,6 +12,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { weekTime } from "../../api/weekTime";
 import { monthTime } from "../../api/monthTime";
 
+
+
 const columns = [
   {
     id: "name",
@@ -28,13 +30,13 @@ const columns = [
   },
   {
     id: "weekTime",
-    label: "週間",
+    label: "週間(時間)",
     minWidth: 170,
     align: "right",
   },
   {
     id: "monthTime",
-    label: "月間",
+    label: "月間(時間)",
     minWidth: 170,
     align: "right",
   },

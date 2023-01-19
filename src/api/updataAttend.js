@@ -19,7 +19,6 @@ export const updateAttend = async (uid) => {
 
 export const updateAbsebce = async (uid, minute) => {
   const washingtonRef = doc(db, "userInfo", uid);
-
   await updateDoc(washingtonRef, {
     attend: false,
   });

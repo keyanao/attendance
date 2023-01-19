@@ -1,10 +1,5 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {
-  setDoc,
-  addDoc,
-  doc,
-  collection,
-} from "firebase/firestore";
+import { setDoc, addDoc, doc, collection } from "firebase/firestore";
 import { auth, db } from "../../FirebaseConfig";
 
 export const createUser = async (name, registerMail, registerPassword) => {
@@ -40,7 +35,7 @@ export const createUser = async (name, registerMail, registerPassword) => {
   try {
     await addDoc(collection(db, "userInfo", auth.currentUser.uid, "weekTime"), {
       time: 0,
-      timestamp: Math.floor((time - 259200) / 604800 / 1000),
+      timestamp: Math.floor((time - 259200 * 1000) / 604800 / 1000),
     });
   } catch (error) {
     console.log(error);
