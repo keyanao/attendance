@@ -62,6 +62,8 @@ export default function MakeGroup(props) {
   }
 
   async function CreateGroup(groupname, location) {
+    console.log("groupname", groupname);
+    console.log("location", location);
     if (groupname) {
       if (isUsedNowLocation === true) {
         //現在地から緯度経度

@@ -14,7 +14,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import InputAdornment from "@mui/material/InputAdornment";
 import Main from "./pages/main/main";
 import Report from "./pages/report/report";
-import PassReset from "./pages/passReset/passReset"
+import PassReset from "./pages/passReset/passReset";
 import SettingPass from "./pages/passReset/settingPass";
 
 function Login() {

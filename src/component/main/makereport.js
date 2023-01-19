@@ -4,6 +4,9 @@ import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { addKeepReport } from "../../api/addKeepReport";
+import { notify } from "../../pages/main/main";
+
+
 
 export default function MakeReport(props) {
   const { onClose, selectedReportValue, makeReportOpen, groupId } = props;
@@ -15,10 +18,12 @@ export default function MakeReport(props) {
     if (conduct === "" && plan === "") {
       alert("どちらかを入力してください");
     } else {
+      notify()
       addKeepReport(conduct, plan, groupId);
       setConduct("");
       setPlan("");
       onClose(selectedReportValue);
+      props.setIsToast(true)
     }
   }
 

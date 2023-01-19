@@ -14,7 +14,9 @@ import { updateAbsebce } from "../../api/updataAttend";
 import Button from "@mui/material/Button";
 import { TimeView } from "../../component/main/timeView";
 import CircularProgress from "@mui/material/CircularProgress";
+import toast, { Toaster } from "react-hot-toast";
 
+export const notify = () => toast("レポートを投稿しました");
 const drawerWidth = 240;
 
 export default function Main() {
@@ -50,7 +52,6 @@ export default function Main() {
     const absenceTime = new Date();
     // const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
     const diff = (absenceTime - attendTime) / 1000; //試し
-    console.log(diff);
     const minute = Math.round(diff * 10) / 10;
     console.log(minute);
     updateAbsebce(uid, minute).then(() => {
@@ -136,7 +137,11 @@ export default function Main() {
       >
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
-          <SideMenu groupId={groupId} attends={attends} isLoading={isLoading} />
+          <SideMenu
+            groupId={groupId}
+            attends={attends}
+            isLoading={isLoading}
+          />
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -173,6 +178,7 @@ export default function Main() {
             >
               退席
             </Button>
+            <Toaster />
           </div>
         ) : (
           ""

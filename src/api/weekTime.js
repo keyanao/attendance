@@ -24,10 +24,13 @@ export const weekTime = async (uid) => {
   querySnapshotMonth.forEach((doc) => {
     weekTime = doc.data().timestamp;
   });
+  console.log("weekTime", weekTime);
+  console.log("newTime", newTime);
   if (weekTime !== newTime) {
+    console.log("えっっっっっ?");
     await addDoc(collection(db, "userInfo", uid, "weekTime"), {
       time: 0,
-      timestamp: Math.floor((time - 259200) / 604800 / 1000),
+      timestamp: Math.floor((time - 259200 * 1000) / 604800 / 1000),
     });
   }
 };

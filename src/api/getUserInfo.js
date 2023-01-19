@@ -15,7 +15,7 @@ export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
   const data = [];
 
   const time = Date.now(); //unixtime
-  const newTime = Math.floor((time - 259200) / 604800 / 1000);
+  const newTime = Math.floor((time - 259200 * 1000) / 604800 / 1000);
 
   const d = new Date();
   const month = d.getMonth() + 1; //何月かを取得
