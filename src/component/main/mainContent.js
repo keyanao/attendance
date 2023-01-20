@@ -12,8 +12,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { weekTime } from "../../api/weekTime";
 import { monthTime } from "../../api/monthTime";
 
-
-
 const columns = [
   {
     id: "name",
@@ -80,11 +78,6 @@ export default function MainContent(props) {
     <>
       {props.isLoading ? (
         <>
-          <Box className="bar" style={{ display: "flex" }}>
-            {/* {attends.map((data) => {
-              name.push(data);
-            })} */}
-          </Box>
           <Paper sx={{ width: "100%" }}>
             <TableContainer sx={{ height: "100%" }}>
               <Table aria-label="sticky table">
@@ -121,7 +114,7 @@ export default function MainContent(props) {
                               const value = attend[column.id];
                               return (
                                 <TableCell
-                                  key={value.id}
+                                  key={column.id}
                                   align={column.align}
                                   sx={{ top: "100px", height: 50 }}
                                 >
