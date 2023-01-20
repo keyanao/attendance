@@ -20,7 +20,7 @@ export const notify = () => toast("レポートを投稿しました");
 const drawerWidth = 240;
 
 export default function Main() {
-  const [isAttended, setIsAttended] = useState(false);
+  const [isAttended, setIsAttended] = useState();//false入れると時間が継続されない
   const [localJudge, setLocalJudge] = useState(false);
   const [attends, setAttends] = useState([]);
   const [attendTime, setAattendTime] = useState(new Date());
