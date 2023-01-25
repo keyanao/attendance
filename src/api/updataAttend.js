@@ -10,16 +10,16 @@ import {
 import { db } from "../FirebaseConfig";
 
 export const updateAttend = async (uid) => {
-  const washingtonRef = doc(db, "userInfo", uid);
+  const attend = doc(db, "userInfo", uid);
 
-  await updateDoc(washingtonRef, {
+  await updateDoc(attend, {
     attend: true,
   });
 };
 
 export const updateAbsebce = async (uid, minute) => {
-  const washingtonRef = doc(db, "userInfo", uid);
-  await updateDoc(washingtonRef, {
+  const absence = doc(db, "userInfo", uid);
+  await updateDoc(absence, {
     attend: false,
   });
 
@@ -38,11 +38,13 @@ export const updateAbsebce = async (uid, minute) => {
 
   const qWeekTime = query(
     collection(db, "userInfo", uid, "weekTime"),
-    orderBy("timestamp", "asc"),
+    orderBy("timestamp","asc"),
     limit(1)
   );
+
   const querySnapshotWeekTime = await getDocs(qWeekTime);
   querySnapshotWeekTime.forEach((doc2) => {
+    console.log(doc2.data())
     const time = Math.round((doc2.data().time + minute) * 10) / 10;
     updateDoc(doc(db, "userInfo", uid, "weekTime", doc2.id), {
       time: time,
