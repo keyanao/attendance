@@ -29,10 +29,9 @@ export const TimeView = (props) => {
     if (running) {
       timerInterval = window.setInterval(() => {
         const startTime = localStorage.getItem("start");
-        console.log(startTime);
         const calc = Date.now() - startTime;
         setcalcTime(calc);
-        //　ミリ秒表示の場合、10
+        //ミリ秒表示の場合、10
         // 秒表示の場合 1000
       }, 1000);
     }

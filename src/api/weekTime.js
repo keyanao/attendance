@@ -17,11 +17,13 @@ export const weekTime = async (uid) => {
 
   const qWeekTime = query(
     collection(db, "userInfo", uid, "weekTime"),
-    orderBy("timestamp", "desc"), //最新
+    orderBy("timestamp","asc"),
     limit(1)
   );
+
   const querySnapshotMonth = await getDocs(qWeekTime);
   querySnapshotMonth.forEach((doc) => {
+    console.log(doc.data())
     weekTime = doc.data().timestamp;
   });
   console.log("weekTime", weekTime);
