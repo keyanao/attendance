@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import { getReportInfo } from "../../api/getReportInfo";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";

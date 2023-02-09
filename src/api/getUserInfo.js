@@ -39,7 +39,7 @@ export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
       //月の出席時間
       const qMonthTime = query(
         collection(db, "userInfo", doc.id, "monthTime"),
-        orderBy("timestamp", "asc"),
+        orderBy("timestamp", "desc"),
         limit(1)
       );
       const querySnapshotMonthTime = await getDocs(qMonthTime);
@@ -54,7 +54,7 @@ export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
       //週の出席時間
       const qWeekTime = query(
         collection(db, "userInfo", doc.id, "weekTime"),
-        orderBy("timestamp", "asc"),
+        orderBy("timestamp", "desc"),
         limit(1)
       );
       const querySnapshotWeekTime = await getDocs(qWeekTime);

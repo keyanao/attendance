@@ -16,7 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import InputAdornment from "@mui/material/InputAdornment";
-import { teal } from "@mui/material/colors";
+import teal from "@mui/material/colors/teal";
 import { createUser } from "../../api/auth/createUser";
 
 const Make = () => {

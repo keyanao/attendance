@@ -9,6 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../FirebaseConfig";
 
+
 export const getMyInfo = async (uid, setIsLoading) => {
   const data = [];
   const docRef = doc(db, "userInfo", uid);
@@ -21,7 +22,7 @@ export const getMyInfo = async (uid, setIsLoading) => {
     //月の出席時間
     const qMonthTime = query(
       collection(db, "userInfo", uid, "monthTime"),
-      orderBy("timestamp", "asc"),
+      orderBy("timestamp", "desc"),
       limit(1)
     );
     const querySnapshotMonthTime = await getDocs(qMonthTime);
@@ -32,9 +33,10 @@ export const getMyInfo = async (uid, setIsLoading) => {
     //週の出席時間
     const qWeekTime = query(
       collection(db, "userInfo", uid, "weekTime"),
-      orderBy("timestamp", "asc"),
+      orderBy("timestamp", "desc"),
       limit(1)
     );
+
     const querySnapshotWeekTime = await getDocs(qWeekTime);
     querySnapshotWeekTime.forEach((doc) => {
       dataWeekTime = doc.data().time;
