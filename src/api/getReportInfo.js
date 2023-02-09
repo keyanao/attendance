@@ -14,10 +14,11 @@ export const getReportInfo = async (uid, groupId) => {
     const qReport = query(
       collection(db, "groupInfo", groupId, "reportInfo"),
       where("uid", "==", uid),
-      orderBy("date", "asc")
+      orderBy("date", "desc")
     );
     const querySnapshotReport = await getDocs(qReport);
     querySnapshotReport.forEach((doc) => {
+      console.log(doc.data())
       data.push(doc.data());
     });
     resolve(data);
@@ -27,14 +28,14 @@ export const getReportInfo = async (uid, groupId) => {
 export const getEditReportInfo = async (uid, groupId, date) => {
   let conduct = "";
   let plan = "";
-  console.log(date)
-
+  
   return new Promise(async (resolve, reject) => {
     const qReport = query(
       collection(db, "groupInfo", groupId, "reportInfo"),
       where("uid", "==", uid),
       where("date", "==", date)
     );
+
     const querySnapshotReport = await getDocs(qReport);
     querySnapshotReport.forEach((doc) => {
       console.log(doc.id)

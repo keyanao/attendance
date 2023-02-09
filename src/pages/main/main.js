@@ -33,9 +33,7 @@ export default function Main() {
   const uid = localStorage.getItem("uid");
   const refX = useRef(groupLat);
   const refy = useRef(groupLng);
-  const time = Date.now(); //unixtime
-  const newTime = Math.floor((time - 259200 * 1000) / 1000 / 604800 );
-  console.log(newTime);
+
 
   const handleAttendanceClick = () => {
     //出席時間
@@ -53,8 +51,8 @@ export default function Main() {
     attends[0].attend = false;
     setIsAttended(false);
     const absenceTime = new Date();
-    // const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
-    const diff = (absenceTime - attendTime) / 1000; //試し
+    const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
+    // const diff = (absenceTime - attendTime) / 1000; //試し
     const minute = Math.round(diff * 10) / 10;
     updateAbsebce(uid, minute).then(() => {
       getUserInfo(uid, setIsLoading2).then((data) => {

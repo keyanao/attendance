@@ -25,7 +25,7 @@ export const updateAbsebce = async (uid, minute) => {
 
   const qMonthTime = query(
     collection(db, "userInfo", uid, "monthTime"),
-    orderBy("timestamp", "asc"),
+    orderBy("timestamp", "desc"),
     limit(1)
   );
   const querySnapshotMonthTime = await getDocs(qMonthTime);
@@ -38,7 +38,7 @@ export const updateAbsebce = async (uid, minute) => {
 
   const qWeekTime = query(
     collection(db, "userInfo", uid, "weekTime"),
-    orderBy("timestamp","asc"),
+    orderBy("timestamp","desc"),
     limit(1)
   );
 

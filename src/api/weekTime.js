@@ -17,19 +17,15 @@ export const weekTime = async (uid) => {
 
   const qWeekTime = query(
     collection(db, "userInfo", uid, "weekTime"),
-    orderBy("timestamp","asc"),
+    orderBy("timestamp","desc"),
     limit(1)
   );
 
   const querySnapshotMonth = await getDocs(qWeekTime);
   querySnapshotMonth.forEach((doc) => {
-    console.log(doc.data())
     weekTime = doc.data().timestamp;
   });
-  console.log("weekTime", weekTime);
-  console.log("newTime", newTime);
   if (weekTime !== newTime) {
-    console.log("えっっっっっ?");
     await addDoc(collection(db, "userInfo", uid, "weekTime"), {
       time: 0,
       timestamp: Math.floor((time - 259200 * 1000) / 604800 / 1000),
