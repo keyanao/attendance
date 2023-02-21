@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { addKeepReport } from "../../api/addKeepReport";
-import { notify } from "../../pages/main/main";
+import { notify } from "../../pages/main";
 
 
 

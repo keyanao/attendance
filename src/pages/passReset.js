@@ -1,4 +1,4 @@
-import "../../style/make.css";
+import "../style/make.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import teal from "@mui/material/colors/teal";
-import { sendPassReset } from "../../api/auth/usePassReset";
+import { sendPassReset } from "../api/auth/usePassReset";
 
 export default function PassReset() {
   const [resetMail, setResetMail] = useState("");
