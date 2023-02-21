@@ -21,7 +21,6 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: black;
 }
 
 
@@ -34,14 +33,6 @@
   }
 }
 
-h1{
-  font-size: 200px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  /* color: rgb(0, 208, 255); */
-  color: black;
-}
-
 .inputline{
   border-radius: 10px; /* ボックスの四つ角を丸くする */
   padding-top: 60px;
@@ -50,6 +41,7 @@ h1{
   padding-left: 20px;
   padding-right: 20px;
   box-shadow: 0 10px 25px 0 rgba(14, 12, 12, 0.88);
+  margin-top: 100px;
 }
 
 .linkline{

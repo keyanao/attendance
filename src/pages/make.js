@@ -1,6 +1,6 @@
-import "../../style/make.css";
+import "../style/make.css";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../FirebaseConfig";
+import { auth } from "../FirebaseConfig";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,7 +17,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 import InputAdornment from "@mui/material/InputAdornment";
 import teal from "@mui/material/colors/teal";
-import { createUser } from "../../api/auth/createUser";
+import { createUser } from "../api/auth/createUser";
 
 const Make = () => {
   const navigation = useNavigate();

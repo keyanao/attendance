@@ -1,4 +1,4 @@
-import "../../style/make.css";
+import "../style/make.css";
 import React, { useState } from "react";
 import {
   Avatar,

@@ -1,10 +1,10 @@
-import "../../style/sidemenu.css";
+import "../style/sidemenu.css";
 import * as React from "react";
-import JoinGroup from "../../component/dialogmenu/joinGroup";
-import MakeGroup from "../../component/dialogmenu/makeGroup";
+import JoinGroup from "../component/dialogmenu/joinGroup";
+import MakeGroup from "../component/dialogmenu/makeGroup";
 import GroupsIcon from "@mui/icons-material/Groups";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import "../../style/dialog.css";
+import "../style/dialog.css";
 
 export default function DialogMenu() {
   const [makeGroupOpen, setMakeGroupOpen] = React.useState(false);
