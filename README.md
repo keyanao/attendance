@@ -1,5 +1,6 @@
 # Lab stay /  出退勤・レポート機能を用いた研究室状況管理アプリ
-![main画面](https://github.com/keyanao/attendance/blob/master/report.3f0807173f568c1be450.jpg)
+![main画面]()
+![レポート管理](https://github.com/keyanao/attendance/blob/master/report.3f0807173f568c1be450.jpg)
 ## コンセプト
 ・研究室の出席率向上
 
