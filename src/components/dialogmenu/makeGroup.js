@@ -14,7 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Geocode from "react-geocode";
 import { useNavigate } from "react-router-dom";
-import { addAddres } from "../../api/addAddres";
+import { addAddres } from "../../api/dialogmenu/addAddres";
 import GroupsIcon from "@mui/icons-material/Groups";
 
 export default function MakeGroup(props) {

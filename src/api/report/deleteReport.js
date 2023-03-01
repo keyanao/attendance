@@ -8,7 +8,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const deleteReport = async (uid, groupId, date) => {
   console.log(date);

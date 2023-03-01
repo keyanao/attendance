@@ -1,7 +1,7 @@
 import "../style/sidemenu.css";
 import * as React from "react";
-import JoinGroup from "../component/dialogmenu/joinGroup";
-import MakeGroup from "../component/dialogmenu/makeGroup";
+import JoinGroup from "../components/dialogmenu/joinGroup";
+import MakeGroup from "../components/dialogmenu/makeGroup";
 import GroupsIcon from "@mui/icons-material/Groups";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import "../style/dialog.css";

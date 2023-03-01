@@ -5,7 +5,7 @@ import {
   where,
   orderBy,
 } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const getReportInfo = async (uid, groupId) => {
   let data = [];

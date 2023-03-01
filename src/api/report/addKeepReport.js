@@ -8,7 +8,7 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const addKeepReport = async (conduct, plan, groupId) => {
   try {

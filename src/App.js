@@ -16,7 +16,7 @@ import Main from "./pages/main";
 import Report from "./pages/report";
 import PassReset from "./pages/passReset";
 import SettingPass from "./pages/settingPass";
-import Description from "./component/app/description";
+import Description from "./components/app/description";
 
 function Login() {
   const [loginPassword, setLoginPassword] = useState("");
