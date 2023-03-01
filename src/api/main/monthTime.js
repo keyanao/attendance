@@ -6,7 +6,7 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const monthTime = async (uid) => {
   let d = new Date();

@@ -5,15 +5,15 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useLocation } from "react-router-dom";
-import { getReportInfo } from "../api/getReportInfo";
+import { getReportInfo } from "../api/report/getReportInfo";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { deleteReport } from "../api/deleteReport";
-import EditReport from "../component/report/editReport";
+import { deleteReport } from "../api/report/deleteReport";
+import EditReport from "../components/report/editReport";
 
 export default function Report() {
   const location = useLocation();

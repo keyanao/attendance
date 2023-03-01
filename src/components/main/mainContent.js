@@ -9,8 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { weekTime } from "../../api/weekTime";
-import { monthTime } from "../../api/monthTime";
+import { weekTime } from "../../api/main/weekTime";
+import { monthTime } from "../../api/main/monthTime";
 
 const columns = [
   {

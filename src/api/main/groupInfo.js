@@ -1,5 +1,5 @@
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const getGroupInfo = async (uid) => {
   let id;

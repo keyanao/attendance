@@ -7,7 +7,7 @@ import {
   limit,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const updateAttend = async (uid) => {
   const attend = doc(db, "userInfo", uid);

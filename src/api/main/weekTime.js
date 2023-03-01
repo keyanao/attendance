@@ -7,7 +7,7 @@ import {
   limit,
 } from "firebase/firestore";
 // import { db, auth } from "../../FirebaseConfig";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const weekTime = async (uid) => {
   const time = Date.now(); //unixtime

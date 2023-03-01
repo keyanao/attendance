@@ -7,7 +7,7 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import { db } from "../FirebaseConfig";
+import { db } from "../../FirebaseConfig";
 
 export const addAddres = async (groupname, lat, lng, uid, navigation) => {
   try {
