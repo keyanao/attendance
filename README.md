@@ -1,5 +1,5 @@
-# Lab stay /  出退勤・レポート機能を用いた研究室状況管理アプリ
-![main画面]()
+# Lab stay /  出退勤・レポート機能を用いた研究室状況管理アプリ(スマホ非対応)
+![main画面](https://github.com/keyanao/attendance/blob/master/main.0a46822d540f4093ae56.jpg)
 ![レポート管理](https://github.com/keyanao/attendance/blob/master/report.3f0807173f568c1be450.jpg)
 ## コンセプト
 ・研究室の出席率向上
@@ -41,3 +41,7 @@
 通知機能
 
 ⇨チェックをつけた人が出席したとき、メールで通知
+
+スマホサイズに対応&ネイティブアプリ化
+
+⇨スマホで簡単に研究室状況を確認
