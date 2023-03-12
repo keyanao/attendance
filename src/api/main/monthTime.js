@@ -25,7 +25,6 @@ export const monthTime = async (uid) => {
   console.log("month", month);
   console.log("monthTime", monthTime);
   if (month !== monthTime) {
-    console.log("はっっっっっっ?");
     await addDoc(collection(db, "userInfo", uid, "monthTime"), {
       time: 0,
       timestamp: new Date(),

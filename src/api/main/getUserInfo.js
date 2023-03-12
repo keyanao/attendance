@@ -20,8 +20,8 @@ export const getUserInfo = async (uid, setIsLoading, setIsLoading2) => {
   const d = new Date();
   const month = d.getMonth() + 1; //何月かを取得
 
-  const docRef = doc(db, "userInfo", uid);
-  const docSnap = await getDoc(docRef);
+  const docRefa = doc(db, "userInfo", uid);
+  const docSnap = await getDoc(docRefa);
   if (docSnap.exists()) {
     gId = docSnap.data().groupId;
   } else {

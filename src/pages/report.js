@@ -17,13 +17,12 @@ import EditReport from "../components/report/editReport";
 
 export default function Report() {
   const location = useLocation();
-  const [edidCheck, setEditCheck] = useState(false);
+  const [editCheck, setEditCheck] = useState(false);
   const groupId = location.state;
   const uid = localStorage.getItem("uid");
   const [report, setReport] = useState();
   const navigate = useNavigate();
-  const [editReportOpen, setEditReportOpen] = React.useState(false);
-  const [editReportValue, setEditReportValue] = React.useState("");
+  const [editReportOpen, setEditReportOpen] = useState(false);
   const [reportDate, setReportDate] = useState();
 
   const BackButton = () => {
@@ -42,13 +41,13 @@ export default function Report() {
 
   const handleEditReport = (date) => {
     setEditReportOpen(true);
-    setEditCheck(!edidCheck);
+    setEditCheck(true);
     setReportDate(date);
   };
 
   const handleCloseEditReport = (value) => {
     setEditReportOpen(false);
-    setEditReportValue(value);
+    setEditCheck(false);
   };
 
   useEffect(() => {
@@ -67,7 +66,7 @@ export default function Report() {
         }}
       >
         <h2>レポート一覧</h2>
-        <Button onClick={() => BackButton()} sx={{marginLeft:"30%"}}>
+        <Button onClick={() => BackButton()} sx={{ marginLeft: "30%" }}>
           戻る
         </Button>
       </div>
@@ -85,6 +84,7 @@ export default function Report() {
                   backGround: "ccc",
                   flexWrap: "wrap",
                 }}
+                key={conducts.id}
               >
                 <EditIcon
                   onClick={() => {
@@ -97,12 +97,11 @@ export default function Report() {
                   }}
                 />
                 <EditReport
-                  editReportValue={editReportValue}
                   editReportOpen={editReportOpen}
-                  onClose={handleCloseEditReport}
-                  date={reportDate}
+                  handleCloseEditReport={handleCloseEditReport}
+                  reportDate={reportDate}
                   groupId={groupId}
-                  edidCheck={edidCheck}
+                  editCheck={editCheck}
                   setReport={setReport}
                 />
                 <DeleteIcon
@@ -116,7 +115,7 @@ export default function Report() {
                   }}
                 />
                 <Accordion
-                  key={conducts.date}
+                  key={conducts.id}
                   sx={{
                     width: "700px",
                     "&:hover": {

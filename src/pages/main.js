@@ -10,7 +10,7 @@ import SideMenu from "../components/main/sidemenu";
 import { getGroupInfo } from "../api/main/groupInfo";
 import { getUserInfo } from "../api/main/getUserInfo";
 import { updateAttend } from "../api/main/updataAttend";
-import { updateAbsebce } from "../api/main/updataAttend";
+import { updateAbsence } from "../api/main/updataAttend";
 import Button from "@mui/material/Button";
 import { TimeView } from "../components/main/timeView";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -34,7 +34,6 @@ export default function Main() {
   const refX = useRef(groupLat);
   const refy = useRef(groupLng);
 
-
   const handleAttendanceClick = () => {
     //出席時間
     console.log("出席");
@@ -51,10 +50,10 @@ export default function Main() {
     attends[0].attend = false;
     setIsAttended(false);
     const absenceTime = new Date();
-    const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
-    // const diff = (absenceTime - attendTime) / 1000; //試し
+    // const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
+    const diff = (absenceTime - attendTime) / 1000; //試し
     const minute = Math.round(diff * 10) / 10;
-    updateAbsebce(uid, minute).then(() => {
+    updateAbsence(uid, minute).then(() => {
       getUserInfo(uid, setIsLoading2).then((data) => {
         setAttends(data);
         setIsAttended(data[0].attend);

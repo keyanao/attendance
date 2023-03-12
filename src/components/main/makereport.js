@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
@@ -23,7 +22,6 @@ export default function MakeReport(props) {
       setConduct("");
       setPlan("");
       onClose(selectedReportValue);
-      props.setIsToast(true)
     }
   }
 
@@ -77,9 +75,3 @@ export default function MakeReport(props) {
     </Dialog>
   );
 }
-
-MakeReport.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  makeReportOpen: PropTypes.bool.isRequired,
-  selectedReportValue: PropTypes.string.isRequired,
-};

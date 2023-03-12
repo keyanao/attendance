@@ -29,9 +29,8 @@ export const addKeepReport = async (conduct, plan, groupId) => {
   }
 };
 
-export const updateRport = async (conduct, plan, groupId, date) => {
+export const updateReport = async (conduct, plan, groupId, date) => {
   const uid = localStorage.getItem("uid");
-
   const qReport = query(
     collection(db, "groupInfo", groupId, "reportInfo"),
     where("uid", "==", uid),
@@ -39,8 +38,7 @@ export const updateRport = async (conduct, plan, groupId, date) => {
   );
   const querySnapshotReport = await getDocs(qReport);
   querySnapshotReport.forEach((doc1) => {
-    const id = doc1.id;
-    updateDoc(doc(db, "groupInfo", groupId, "reportInfo", id), {
+    updateDoc(doc(db, "groupInfo", groupId, "reportInfo", doc1.id), {
       conduct: conduct,
       plan: plan,
     });

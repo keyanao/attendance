@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
 import "../../style/success.css";
 import {
@@ -150,8 +149,3 @@ export default function MakeGroup(props) {
   );
 }
 
-MakeGroup.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  // selectedValue: PropTypes.string.isRequired,
-};

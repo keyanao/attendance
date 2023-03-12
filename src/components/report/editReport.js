@@ -1,56 +1,52 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { updateRport } from "../../api/report/addKeepReport";
+import { updateReport } from "../../api/report/addKeepReport";
 import { getEditReportInfo } from "../../api/report/getReportInfo";
 import { getReportInfo } from "../../api/report/getReportInfo";
 
 export default function EditReport(props) {
   const {
-    onClose,
-    editReportValue,
+    handleCloseEditReport,
     editReportOpen,
-    date,
+    reportDate,
     groupId,
-    edidCheck,
+    editCheck,
     setReport,
   } = props;
   const [conduct, setConduct] = useState("");
   const [plan, setPlan] = useState("");
   const uid = localStorage.getItem("uid");
 
-  function keepReport(conduct, plan) {
+  const keepReport = async (conduct, plan) => {
     if (conduct === "" && plan === "") {
       alert("どちらかを入力してください");
     } else {
-      updateRport(conduct, plan, groupId, date).then(() => {
-        getReportInfo(uid, groupId).then((data) => {
-          setReport(data);
-        });
+      handleCloseEditReport();
+      await updateReport(conduct, plan, groupId, reportDate);
+      getReportInfo(uid, groupId).then((data) => {
+        setReport(data);
       });
-      setConduct("");
-      setPlan("");
-      onClose(editReportValue);
+      // setConduct("");
+      // setPlan("");
     }
-  }
-
-  const handleClose = () => {
-    onClose(editReportValue);
   };
 
+
+
   useEffect(() => {
-    getEditReportInfo(uid, groupId, date).then((data) => {
+    getEditReportInfo(uid, groupId, reportDate).then((data) => {
       setConduct(data.conduct);
       setPlan(data.plan);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [edidCheck]);
+  }, [editCheck]);
 
   return (
     <Dialog
-      onClose={handleClose}
+      onClose={handleCloseEditReport}
       open={editReportOpen}
       sx={{
         "& .MuiDialog-container": {
@@ -89,14 +85,13 @@ export default function EditReport(props) {
         />
       </div>
       <Button onClick={() => keepReport(conduct, plan)} variant="contained">
-        編集
+        編集完了
       </Button>
     </Dialog>
   );
 }
 
-EditReport.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  editReportOpen: PropTypes.bool.isRequired,
-  editReportValue: PropTypes.string.isRequired,
-};
+// EditReport.propTypes = {
+//   onClose: PropTypes.func.isRequired,
+//   editReportOpen: PropTypes.bool.isRequired,
+// };

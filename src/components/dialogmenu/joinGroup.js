@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
@@ -60,9 +59,3 @@ export default function JoinGroup(props) {
     </Dialog>
   );
 }
-
-JoinGroup.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  // selectedValue: PropTypes.string.isRequired,
-};
