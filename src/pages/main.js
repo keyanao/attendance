@@ -50,8 +50,8 @@ export default function Main() {
     attends[0].attend = false;
     setIsAttended(false);
     const absenceTime = new Date();
-    // const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
-    const diff = (absenceTime - attendTime) / 1000; //試し
+    const diff = (absenceTime - attendTime) / 1000 / 60 / 60; //在籍時間
+    // const diff = (absenceTime - attendTime) / 1000; //試し
     const minute = Math.round(diff * 10) / 10;
     updateAbsence(uid, minute).then(() => {
       getUserInfo(uid, setIsLoading2).then((data) => {
